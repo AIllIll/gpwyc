@@ -8,11 +8,7 @@ import {appify, wxp, MyApp, MyStore} from 'base/'
 @appify(new MyStore(), {pages: require('./app.cjson?pages'), tabBarList: require('./app.cjson?tabBar.list')})
 export default class extends MyApp {
   async onLaunch() {
-    // 展示本地存储能力
-    let logs = wxp.getStorageSync('logs') || []
-    logs.unshift(Date.now())
-    wxp.setStorageSync('logs', logs)
-
+    
     // 登录
     let {code} = await wxp.login()
     console.log('微信 code %o', code) // 发送 code 到后台换取 openId, sessionKey, unionId

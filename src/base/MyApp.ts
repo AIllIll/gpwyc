@@ -20,6 +20,10 @@ export class MyApp extends MobxApp<MyStore> {
 
     /*# INJECT_START {"key": "pagesMap"} #*/
     login: Url
+    contacts: Url
+    conversations: Url
+    machine: Url
+    broadcast: Url
     /*# INJECT_END #*/
   }
 }
