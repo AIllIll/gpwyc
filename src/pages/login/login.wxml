@@ -4,3 +4,14 @@
   注意：
   1. 如果没有语法高亮，且你使用的是 vscode 编辑器的话，建义在 vscode 插件库中安装 minapp-vscode 插件
 -->
+<view class="container" style="margin-top:{{windowHeight/7}}px">
+
+    <button wx:if="{{!userInfo}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
+    <block wx:else>
+        <userInfo nickName="{{userInfo.nickName}}" avatarUrl="{{userInfo.avatarUrl}}" />
+    </block>
+
+    <button class="loginButton" type="primary" bindtap='wechatLogin'>微信快捷登录</button>
+    <footer textArray='{{["Developed by WyC","wechat：864147974"]}}'/>
+
+</view>

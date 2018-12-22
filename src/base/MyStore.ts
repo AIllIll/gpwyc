@@ -15,4 +15,6 @@ export class MyStore extends MobxStore {
    *  另外，函数相关的 ts 定义都存储在 wx.[同名函数] 的 namespace 中，如下面的 ParamPropSuccessParamPropUserInfo
    */
   @observable userInfo: null | wx.getUserInfo.ParamPropSuccessParamPropUserInfo = null
+
+  @observable windowHeight: null|number=null
 }
