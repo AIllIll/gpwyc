@@ -1,6 +1,6 @@
 // 此文件是由模板文件 ".dtpl/page/$rawModuleName.ts.dtpl" 生成的，你可以自行修改模板
 
-import {pagify, MyPage} from 'base/'
+import {pagify, MyPage, wxp} from 'base/'
 
 @pagify()
 export default class extends MyPage {
@@ -31,5 +31,10 @@ export default class extends MyPage {
 
   onClickCard(e:any){
     console.log(e)
+  }
+  onClickNewFriends(){
+    wxp.navigateTo({
+      url:"../newFriends/newFriends"
+    })
   }
 }

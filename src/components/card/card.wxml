@@ -12,9 +12,9 @@
         <view class="badge" style="position: absolute;top: -.4em;right: -.4em;" wx:if="{{badge}}">{{badge}}</view>
     </view>
     <view class="card__bd">
-        <view style="font-size: 18px;">{{nickName}}</view>
+        <view style="font-size: 16px;">{{nickName}}</view>
     </view>
     <view class="card__ft">
-        <view style="font-size: 13px;color: #888888;">{{extra}}</view>
+        <view style="font-size: 12px;color: #888888;">{{extra}}</view>
     </view>
 </view>

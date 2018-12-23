@@ -16,9 +16,16 @@ export class MyStore extends MobxStore {
    */
   @observable userInfo: null | wx.getUserInfo.ParamPropSuccessParamPropUserInfo = null
 
+  @observable openId: null|String=null
+
   @observable windowHeight: null|number=null
   
   @observable conversations: any=[]
   
   @observable contacts: any=[]
+
+  
+  @observable config:any ={
+    host:"ttissoft.cn"
+  }
 }
