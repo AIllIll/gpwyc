@@ -4,5 +4,16 @@
   注意：
   1. 如果没有语法高亮，且你使用的是 vscode 编辑器的话，建义在 vscode 插件库中安装 minapp-vscode 插件
 -->
-
-<text>page: broadcast</text>
+<view class="topbar">
+    <icon type="search" class="topbar-icon" bind:tap="onClickSearch"/>
+    <tagbar current="{{current}}" color="#3099ff" scroll="{{true}}" bindchange="handleChange" > 
+        <tag key="notice" title="通知" data-key="notice"></tag>
+        <tag key="history" title="历史" data-key="history"></tag>
+        <tag key="topic" title="话题" data-key="topic"></tag>
+        <tag key="comment" title="评论" data-key="comment"></tag>
+        <tag key="collect" title="收藏" data-key="collect"></tag> 
+    </tagbar>
+</view>
+<scroll-view class="newspaper">
+    
+</scroll-view>

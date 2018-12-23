@@ -11,7 +11,7 @@
         <view class="badge" style="position: absolute;top: -.4em;right: -.4em;" wx:if="{{badge}}">{{badge}}</view>
     </view>
     <view class="cell__bd">
-        <view style="font-size: 20px;">{{nickName}}</view>
+        <view style="font-size: 18px;">{{nickName}}</view>
         <view style="font-size: 13px;color: #888888;">{{motto}}</view>
     </view>
     <view class="cell__ft">

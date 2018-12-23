@@ -17,7 +17,7 @@ export default class extends MyComponent {
         value: ''
     },
     badge:{
-        type: String,
+        type: Number,
         value: ''
     },
     nickName: {

@@ -8,10 +8,10 @@
 
     <button wx:if="{{!userInfo}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
     <block wx:else>
-        <userInfo nickName="{{userInfo.nickName}}" avatarUrl="{{userInfo.avatarUrl}}" />
+        <userInfo nickName="{{userInfo.nickName}}" avatarUrl="{{userInfo.avatarUrl}}" />        
+        <button class="loginButton" type="primary" bindtap='wechatLogin'>微信快捷登录</button>
     </block>
 
-    <button class="loginButton" type="primary" bindtap='wechatLogin'>微信快捷登录</button>
     <footer textArray='{{["Developed by WyC","wechat：864147974"]}}'/>
 
 </view>

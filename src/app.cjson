@@ -23,7 +23,7 @@
     "navigationBarBackgroundColor": "#111111",
     "navigationBarTitleText": "newChat",
     "navigationBarTextStyle": "white",
-    "enablePullDownRefresh": true
+    //"enablePullDownRefresh": true
   },
   "tabBar": {
     "color": "#a9b7b7",
