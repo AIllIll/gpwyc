@@ -5,4 +5,8 @@
   1. 如果没有语法高亮，且你使用的是 vscode 编辑器的话，建义在 vscode 插件库中安装 minapp-vscode 插件
 -->
 
-<text>page: contacts</text>
+<block wx:for="{{contacts}}" wx:key="{{item.openId}}">
+    <card nickName="{{item.nickName}}" avatarUrl="{{item.avatarUrl}}" 
+        full="{{true}}" motto="{{item.motto}}" extra="{{item.extra}}" 
+        badge="{{item.badge}}" data-item="{{item}}" bind:tap="onClickCard"/>
+</block>

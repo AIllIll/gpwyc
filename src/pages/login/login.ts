@@ -9,13 +9,13 @@ export default class extends MyPage {
   }
 
   async onLoad(options: any) {
-    console.log(await wxp.getUserInfo())
+    //console.log(await wxp.getUserInfo())
   }
 
   getUserInfo(e:any) {
     console.log(e)
     this.store.userInfo = e.detail.userInfo
-    this.setData({
+    this.setDataSmart({
       userInfo: e.detail.userInfo
     })
   }

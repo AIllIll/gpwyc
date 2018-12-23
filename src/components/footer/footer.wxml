@@ -10,7 +10,7 @@
         <navigator url="{{linkUrl}}" class="footer__link">{{linkName}}</navigator>
     </view>
     
-    <block wx:for="{{textArray}}">
+    <block wx:for="{{textArray}}" wx:key="{{item}}">
         <view class="footer__text">{{item}}</view>
     </block>
 </view>

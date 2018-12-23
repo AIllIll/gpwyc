@@ -1,0 +1,92 @@
+/*
+  此文件是由模板文件 ".dtpl/component/$rawModuleName.$style.dtpl" 生成的，你可以自行修改模板
+
+  注意：文件为空，编译时不会生成新文件
+*/
+.card{
+  padding:8px 15px;
+  position:relative;
+  display:-webkit-box;
+  display:-webkit-flex;
+  display:flex;
+  -webkit-box-align:center;
+  -webkit-align-items:center;
+  align-items:center
+}
+.card-hover{
+  padding:8px 15px;
+  position:relative;
+  display:-webkit-box;
+  display:-webkit-flex;
+  display:flex;
+  -webkit-box-align:center;
+  -webkit-align-items:center;
+  align-items:center;
+  background-color: #d9d9d9;
+}
+.card::after{
+  content:" ";
+  position:absolute;
+  left:0;
+  top:0;
+  right:0;
+  height:1px;
+  border-top:1px solid #d9d9d9;
+  color: #d9d9d9;
+}
+.card:first-child:before{
+  display:none
+}
+.card__bd{
+  -webkit-box-flex:1;
+  -webkit-flex:1;
+  flex:1
+}
+.card__ft{
+  text-align:right;
+  color:#999
+}
+.card__ft_in-access{
+  padding-right:13px;
+  position:relative
+}
+.card__ft_in-access:after{
+  content:" ";
+  display:inline-block;
+  height:6px;
+  width:6px;
+  border-width:2px 2px 0 0;
+  border-color:#c8c8cd;
+  border-style:solid;
+  -webkit-transform:matrix(.71,.71,-.71,.71,0,0);
+  transform:matrix(.71,.71,-.71,.71,0,0);
+  position:relative;top:-2px;
+  position:absolute;top:50%;
+  margin-top:-4px;
+  right:2px
+}
+.card__hd_in-select-after{
+  padding-left:15px
+}
+.badge{
+  display:inline-block;
+  padding:.15em .4em;
+  min-width:8px;
+  border-radius:18px;
+  background-color:#e64340;
+  color:#fff;
+  line-height:1.2;
+  text-align:center;
+  font-size:12px;
+  vertical-align:middle;
+}
+.badge_dot{
+  padding:.4em;
+  min-width:0
+}
+
+.avatar{
+  width: 36px;
+  height: 36px; 
+  display: block;
+}

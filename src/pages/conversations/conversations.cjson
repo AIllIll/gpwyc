@@ -7,5 +7,8 @@
 */
 
 {
-  "$schema": "https://raw.githubusercontent.com/qiu8310/minapp/master/schema/page.json"
+  "$schema": "https://raw.githubusercontent.com/qiu8310/minapp/master/schema/page.json",
+  "usingComponents": {
+    "cell":"components/cell/cell",
+  }
 }

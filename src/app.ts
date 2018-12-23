@@ -14,11 +14,6 @@ export default class extends MyApp {
     console.log('微信 code %o', code) // 发送 code 到后台换取 openId, sessionKey, unionId
 
 
-    let systemInfo = await wxp.getSystemInfo()
-    this.store.windowHeight = systemInfo.windowHeight;//窗口高度
-    console.log("窗口高度： ",this.store.windowHeight)
-
-
     // 获取用户信息
     let setting = await wxp.getSetting()
     if (setting.authSetting['scope.userInfo']) { // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
@@ -29,6 +24,14 @@ export default class extends MyApp {
     } else {
       console.log('没有授权过')
     }
+
+    
+    //窗口高度
+    let systemInfo = await wxp.getSystemInfo()
+    this.store.windowHeight = systemInfo.windowHeight;
+    console.log("窗口高度： ",this.store.windowHeight)
   }
+  
+  
 }
 
