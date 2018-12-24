@@ -1,0 +1,61 @@
+<!--
+  此文件是由模板文件 ".dtpl/component/$rawModuleName.wxml.dtpl" 生成的，你可以自行修改模板
+
+  注意：
+  1. 如果没有语法高亮，且你使用的是 vscode 编辑器的话，建义在 vscode 插件库中安装 minapp-vscode 插件
+-->
+<block wx:if="{{isMine}}">
+    <view class="bubble bubble-mine">
+
+        <image class="bubble-avatar" src="{{avatarUrl}}"/>
+
+        <block wx:if="{{msgType==='text'}}">
+            <view class="bubble-triangle-mine"></view>
+            <view class="bubble-word bubble-word-mine" hover-class="bubble-hover">
+                <text selectable='true'>{{msgContent}}</text>
+                <view class="bubble-word-remark bubble-word-remark-mine">已读 {{msgTime}}</view>
+            </view>
+        </block>
+        <block wx:elif="{{msgType==='image'}}">
+            <view class="bubble-triangle-mine"></view>
+            <view class="bubble-word bubble-word-mine" hover-class="bubble-hover">
+                <image class="bubble-image"  mode="widthFix" src="{{imageSrc}}"/>
+                <view class="bubble-word-remark bubble-word-remark-mine">已读 {{msgTime}}</view>
+            </view>
+        </block>
+        <block wx:elif="{{msgType==='audio'}}">
+            <view class="bubble-triangle-mine"></view>
+            <view class="bubble-word bubble-word-mine" hover-class="bubble-hover">
+                <text>录音长度：{{audioLength}}</text>
+                <view class="bubble-word-remark bubble-word-remark-mine">已读 {{msgTime}}</view>
+            </view>
+        </block>
+    </view>
+</block>
+<block wx:else>
+    <view class="bubble bubble-others">
+        <image class="bubble-avatar" src="{{avatarUrl}}"/>
+
+        <block wx:if="{{msgType==='text'}}">
+            <view class="bubble-triangle-others"></view>
+            <view class="bubble-word bubble-word-others" hover-class="bubble-hover">
+                <text selectable='true'>{{msgContent}}</text>
+                <view class="bubble-word-remark bubble-word-remark-others">已读 {{msgTime}}</view>
+            </view>
+        </block>
+        <block wx:elif="{{msgType==='image'}}">
+            <view class="bubble-triangle-others"></view>
+            <view class="bubble-word bubble-word-others" hover-class="bubble-hover">
+                <image class="bubble-image" mode="widthFix" src="{{imageSrc}}"/>
+                <view class="bubble-word-remark bubble-word-remark-others">已读 {{msgTime}}</view>
+            </view>
+        </block>
+        <block wx:elif="{{msgType==='audio'}}">
+            <view class="bubble-triangle-others"></view>
+            <view class="bubble-word bubble-word-others" bind:tap="onClickAudio">
+                <text>录音长度：{{audioLength}}</text>
+                <view class="bubble-word-remark bubble-word-remark-others">已读 {{msgTime}}</view>
+            </view>
+        </block>
+    </view>
+</block>

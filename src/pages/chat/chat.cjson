@@ -10,5 +10,6 @@
   "$schema": "https://raw.githubusercontent.com/qiu8310/minapp/master/schema/page.json",
   "usingComponents": {
     "inputBox":"components/inputBox/inputBox",
+    "bubble":"components/bubble/bubble",
   }
 }
