@@ -11,6 +11,7 @@
 
     /*# INJECT_START {"key": "page"} #*/
     
+    "pages/chat/chat",
     "pages/login/login",
     "pages/conversations/conversations",
     "pages/contacts/contacts",

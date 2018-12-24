@@ -1,0 +1,43 @@
+<!--
+  此文件是由模板文件 ".dtpl/component/$rawModuleName.wxml.dtpl" 生成的，你可以自行修改模板
+
+  注意：
+  1. 如果没有语法高亮，且你使用的是 vscode 编辑器的话，建义在 vscode 插件库中安装 minapp-vscode 插件
+-->
+<view class="inputBox">
+
+    <block wx:if="{{status=='keyboard'}}">
+        <view class="inputBox-icon-outer">
+            <image class="inputBox-icon" src="{{'../../images/input/voice.png'}}" bind:tap="onClickAudio"/>
+        </view>
+        <view class="inputBox-input-outer">
+            <textarea class="inputBox-input-inner" show-confirm-bar="{{false}}" cursor-spacing="11"  
+            maxlength="{{maxlength}}" auto-height="{{true}}" fixed confirm-type="send" 
+            bind:input="onInputChange" bind:focus="onInputFocus" bind:blur="onInputBlur"
+            value="{{inputValue}}"/>
+        </view>
+        <view class="inputBox-icon-outer">
+            <block wx:if="{{isInputEmpty}}">
+                <image class="inputBox-icon" src="{{'../../images/input/extra.png'}}" bind:tap="onClickExtra"/>
+            </block>
+            <block wx:else>
+                <image class="inputBox-icon" src="{{'../../images/input/sent.png'}}" bind:tap="onClickSend"/>
+            </block>
+        </view>
+    </block>
+
+    <block wx:if="{{status=='audio'}}">
+        
+        <view class="inputBox-icon-outer">
+            <image class="inputBox-icon" src="{{'../../images/input/keyboard.png'}}" bind:tap="onClickKeyboard"/>
+        </view>
+        <button class="inputBox-input-button"  catch:touchmove="onTouchMove"  catch:touchstart="onAudioTouchStart" catch:touchend="onAudioTouchEnd">
+            <view class="inputBox-input-button-text">{{buttonText}}</view>
+        </button>
+        <view class="inputBox-icon-outer">
+            <image class="inputBox-icon" src="{{'../../images/input/extra.png'}}" bind:tap="onClickExtra"/>
+        </view>
+    </block>
+</view>
+
+

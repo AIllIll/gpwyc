@@ -1,0 +1,25 @@
+// 此文件是由模板文件 ".dtpl/page/$rawModuleName.ts.dtpl" 生成的，你可以自行修改模板
+
+import {pagify, MyPage, wxp} from 'base/'
+
+@pagify()
+export default class extends MyPage {
+  data = {
+
+  }
+
+  async onLoad(options: any) {
+    console.log(await wxp.getUserInfo())
+  }
+
+  onInputChange(e:any){
+    console.log("capture trigger inputChange",e.detail)
+  }
+  
+  onCancel(){
+    console.log("capture trigger cancel")
+  }
+  onFinish(){
+    console.log("capture trigger finish")
+  }
+}
