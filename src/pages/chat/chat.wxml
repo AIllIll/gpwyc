@@ -4,19 +4,14 @@
   注意：
   1. 如果没有语法高亮，且你使用的是 vscode 编辑器的话，建义在 vscode 插件库中安装 minapp-vscode 插件
 -->
-<view class="container">
 
-    <scroll-view scroll-y="{{true}}" style="height:100% margin-bottom:1px width:100%">
-        <bubble isMine="{{true}}" msgType="text" avatarUrl="{{userInfo.avatarUrl}}" nickName="{{userInfo.nickName}}" 
-            msgContent="6666666666666666666666666666666666msgContentmsgContentmsgContentmsgContemsgContentmsgConten"
-            msgTime="12:00"/>
-        <bubble isMine="{{false}}" msgType="text" avatarUrl="{{userInfo.avatarUrl}}" nickName="{{userInfo.nickName}}" 
-            msgContent="msgContentmsgContentmsgContentmsgContentmsgContent" msgTime="12:00"/>
-        <bubble isMine="{{false}}" msgType="image" avatarUrl="{{userInfo.avatarUrl}}" nickName="{{userInfo.nickName}}" imageSrc="{{userInfo.avatarUrl}}"/>
-        <bubble isMine="{{true}}" msgType="audio" avatarUrl="{{userInfo.avatarUrl}}" nickName="{{userInfo.nickName}}" msgContent="{{userInfo.avatarUrl}}"/>
-
-    </scroll-view>
-
-    
-    <inputBox bindFinish="onFinish" bindCancel="onCancel" bindInputChange="onInputChange"/>
-</view>
+<scroll-view scroll-y="{{true}}" style="height:{{windowHeight -50}}px; width:100%" >
+    <bubble isMine="{{true}}" msgType="text" avatarUrl="{{userInfo.avatarUrl}}" nickName="{{userInfo.nickName}}" 
+        msgContent="6666666666666666666666666666666666msgContentmsgContentmsgContentmsgContemsgContentmsgConten"
+        msgTime="12:00"/>
+    <bubble isMine="{{false}}" msgType="text" avatarUrl="{{userInfo.avatarUrl}}" nickName="{{userInfo.nickName}}" 
+        msgContent="msgContentmsgContentmsgContentmsgContentmsgContent" msgTime="12:00"/>
+    <bubble isMine="{{false}}" msgType="image" avatarUrl="{{userInfo.avatarUrl}}" nickName="{{userInfo.nickName}}" imageSrc="{{userInfo.avatarUrl}}"/>
+    <bubble isMine="{{true}}" msgType="audio" avatarUrl="{{userInfo.avatarUrl}}" nickName="{{userInfo.nickName}}" msgContent="{{userInfo.avatarUrl}}"/>
+</scroll-view>
+<inputBox bindFinish="onFinish" bindCancel="onCancel" bindInputChange="onInputChange"/>
