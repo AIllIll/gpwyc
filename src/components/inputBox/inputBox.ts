@@ -29,6 +29,7 @@ export default class extends MyComponent {
     hasCancel:false,
     buttonText:"按住说话",
     isInputEmpty:true,
+    inputValue:""
   }
 
   /**
@@ -50,11 +51,16 @@ export default class extends MyComponent {
 
   onClickExtra(){
     console.log("extra")
+    this.triggerEvent("Extra",{},{})
   }
 
   onClickSend(){
     console.log("send")
-    this.setDataSmart({inputValue:""})
+    this.triggerEvent("Send",{},{})
+    this.setDataSmart({
+      inputValue:"",
+      isInputEmpty:true
+    })
   }
 
   /**

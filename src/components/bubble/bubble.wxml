@@ -46,7 +46,7 @@
         <block wx:elif="{{msgType==='image'}}">
             <view class="bubble-triangle-others"></view>
             <view class="bubble-word bubble-word-others" hover-class="bubble-hover">
-                <image class="bubble-image" mode="widthFix" src="{{imageSrc}}"/>
+                <image class="bubble-image" mode="widthFix" src="{{msgContent}}"/>
                 <view class="bubble-word-remark bubble-word-remark-others">已读 {{msgTime}}</view>
             </view>
         </block>

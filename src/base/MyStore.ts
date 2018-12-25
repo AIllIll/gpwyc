@@ -28,4 +28,6 @@ export class MyStore extends MobxStore {
   @observable config:any ={
     host:"ttissoft.cn"
   }
+
+  @observable ws: any=null;
 }

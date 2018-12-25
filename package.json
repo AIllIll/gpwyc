@@ -19,6 +19,7 @@
     "@minapp/wx": "latest",
     "mobx": "^3.5.1",
     "tslib": "^1.9.0",
+    "uuid": "^3.3.2",
     "wafer-client-sdk": "^0.8.4",
     "wafer2-client-sdk": "^2.1.0"
   },

@@ -32,14 +32,6 @@ export default class extends MyComponent {
       type:String,
       value:""
     },
-    imageSrc:{
-      type:String,
-      value:""
-    },
-    audioSrc:{
-      type:String,
-      value:""
-    },
     audioLength:{
       type:String,
       value:""

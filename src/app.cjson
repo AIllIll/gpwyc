@@ -11,13 +11,13 @@
 
     /*# INJECT_START {"key": "page"} #*/
     
-    "pages/chat/chat",
     "pages/login/login",
     "pages/conversations/conversations",
     "pages/contacts/contacts",
     "pages/machine/machine",
     "pages/broadcast/broadcast",
     "pages/newFriends/newFriends",
+    "pages/chat/chat",
     /*# INJECT_END #*/
   ],
   "window": {

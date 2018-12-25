@@ -35,6 +35,10 @@ export default class extends MyApp {
   config = {
     host: 'ttissoft.cn'
   }
+
+  onUnlaunch(){
+    
+  }
   
 }
 

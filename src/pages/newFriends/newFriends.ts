@@ -1,6 +1,6 @@
 // 此文件是由模板文件 ".dtpl/page/$rawModuleName.ts.dtpl" 生成的，你可以自行修改模板
 
-import {pagify, MyPage} from 'base/'
+import {pagify, MyPage, wxp} from 'base/'
 
 
 const wafer = require('wafer-client-sdk/index');
@@ -27,6 +27,14 @@ export default class extends MyPage {
       fail:(err:any)=>{
         console.log(err)
       }
+    })
+  }
+
+  onClickCell(e:any){
+    //console.log(e.currentTarget.dataset.item)
+    const friendInfo=e.currentTarget.dataset.item;
+    wxp.navigateTo({
+      url:"../chat/chat?friendInfo="+JSON.stringify(friendInfo)
     })
   }
 }
