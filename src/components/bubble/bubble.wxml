@@ -25,7 +25,7 @@
         </block>
         <block wx:elif="{{msgType==='audio'}}">
             <view class="bubble-triangle-mine"></view>
-            <view class="bubble-word bubble-word-mine" hover-class="bubble-hover">
+            <view class="bubble-word bubble-word-mine" hover-class="bubble-hover" bind:tap="onClickAudio">
                 <text>录音长度：{{audioLength}}</text>
                 <view class="bubble-word-remark bubble-word-remark-mine">已读 {{msgTime}}</view>
             </view>
@@ -52,7 +52,7 @@
         </block>
         <block wx:elif="{{msgType==='audio'}}">
             <view class="bubble-triangle-others"></view>
-            <view class="bubble-word bubble-word-others" bind:tap="onClickAudio">
+            <view class="bubble-word bubble-word-others" hover-class="bubble-hover" bind:tap="onClickAudio"  data-audio="{{msgContent}}">
                 <text>录音长度：{{audioLength}}</text>
                 <view class="bubble-word-remark bubble-word-remark-others">已读 {{msgTime}}</view>
             </view>

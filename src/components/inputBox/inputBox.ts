@@ -1,6 +1,7 @@
 // 此文件是由模板文件 ".dtpl/component/$rawModuleName.ts.dtpl" 生成的，你可以自行修改模板
 
 import {MyComponent, comify} from 'base'
+const recorderManager=wx.getRecorderManager();
 
 @comify()
 export default class extends MyComponent {
@@ -29,9 +30,24 @@ export default class extends MyComponent {
     hasCancel:false,
     buttonText:"按住说话",
     isInputEmpty:true,
-    inputValue:""
+    inputValue:"",
   }
-
+  onCreated(){
+    console.log("create")
+    recorderManager.onStop((res)=>{
+      //console.log(res.tempFilePath)
+      
+      if(this.data.hasCancel){
+        this.triggerEvent("Cancel",{},{})
+        this.data.hasCancel=false;
+      }else{
+        this.triggerEvent("Finish",{tempAudioPath:res.tempFilePath},{})
+        wx.showToast({
+          title:"录音成功"
+        })
+      }
+    })
+  }
   /**
    * icon响应函数
    */
@@ -69,24 +85,20 @@ export default class extends MyComponent {
   onAudioTouchStart(e:any){
     console.log("start")
     //console.log("start",e.touches[0].pageY)
+    recorderManager.start({format:"mp3"});//开始录音
+
     this.data.touchStartPageY=e.touches[0].pageY;
     this.setDataSmart({
       buttonText:"上滑取消"
     })
+    
   }
 
   onAudioTouchEnd(e:any){
     console.log("end")
     //console.log("end",e)
-    if(this.data.hasCancel){
-      this.triggerEvent("Cancel",{},{})
-      this.data.hasCancel=false;
-    }else{
-      this.triggerEvent("Finish",{},{})
-      wx.showToast({
-        title:"录音成功"
-      })
-    }
+    recorderManager.stop();
+
     this.setDataSmart({
       buttonText:"按住说话"
     })
@@ -119,7 +131,7 @@ export default class extends MyComponent {
     console.log("focus")
   }
   onInputBlur(e:any){
-    console.log("blur",e)//点击其他地方的时候，是先tap后blur
+    console.log("blur")//点击其他地方的时候，是先tap后blur
     /*if(e.detail.value==""){
       this.setDataSmart({isInputEmpty:true})
     }else{

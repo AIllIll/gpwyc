@@ -31,7 +31,7 @@
         <view class="inputBox-icon-outer">
             <image class="inputBox-icon" src="{{'../../images/input/keyboard.png'}}" bind:tap="onClickKeyboard"/>
         </view>
-        <button class="inputBox-input-button"  catch:touchmove="onTouchMove"  catch:touchstart="onAudioTouchStart" catch:touchend="onAudioTouchEnd">
+        <button class="inputBox-input-button" hover-class="inputBox-input-button-hover" catch:touchmove="onTouchMove"  catch:touchstart="onAudioTouchStart" catch:touchend="onAudioTouchEnd">
             <view class="inputBox-input-button-text">{{buttonText}}</view>
         </button>
         <view class="inputBox-icon-outer">

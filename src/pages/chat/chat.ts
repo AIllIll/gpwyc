@@ -2,6 +2,7 @@
 
 import {pagify, MyPage, wxp} from 'base/'
 const getUuid=require("uuid/v4")
+const innerAudioContext=wx.createInnerAudioContext()
 
 @pagify()
 export default class extends MyPage {
@@ -28,7 +29,7 @@ export default class extends MyPage {
       const signal=JSON.parse(String(message.data));
       //console.log(signal)
       //收到text
-      if(signal.msgType=="text"){
+      if(signal.msgType=="text"||signal.msgType=="audio"){
         const fromUser=signal.fromUser;
         const uuid=signal.uuid;
         //console.log("this.store.conversations",this.store.conversations)
@@ -43,16 +44,21 @@ export default class extends MyPage {
           conversations:this.store.conversations
         })
         console.log("this.store.conversations[fromUser]变成",this.store.conversations[fromUser])
-        /*if(this.store.conversations[fromUser]){
-          console.log("233",this.store.conversations[fromUser][signal.uuid])
-          this.store.conversations[fromUser][signal.uuid]=signal;
-        }else{
-          const key=signal.uuid;
-          this.store.conversations[fromUser]=new Object({key:signal})
-        }
-        */  
       }
     });
+
+
+    innerAudioContext.onPlay(() => {
+      console.log('开始播放')
+    })
+    innerAudioContext.onEnded(() =>{
+      console.log('播放自然结束')
+      this.audioPlaying=false;
+    })
+    innerAudioContext.onStop(() =>{
+      console.log('播放终止')
+      this.audioPlaying=false;
+    })
   }
 
   async onUnload(){
@@ -66,11 +72,66 @@ export default class extends MyPage {
   onCancel(){
     console.log("capture trigger cancel")
   }
-  onFinish(){
-    console.log("capture trigger finish")
+  onFinish(e:any){
+    //console.log("capture trigger finish",e.detail.tempAudioPath)
+    var that=this;
+    var audioPathOnServer;
+    //比text多一步录音上传
+    wx.uploadFile({
+      url: 'https://ttissoft.cn/testfile0?toUser=123',
+      filePath: e.detail.tempAudioPath,
+      name: 'testfile0',
+      success:res=>{
+        const feedback = JSON.parse(res.data)
+        
+        audioPathOnServer='https://ttissoft.cn/testfile0?filename='+feedback.filename;
+        console.log("audioPathOnServer",audioPathOnServer)
+
+        //信号生成
+        const uuid=getUuid();
+        console.log("uuid",uuid)
+        const newSignal={
+          uuid:uuid,
+          fromUser:that.store.openId,
+          toUser:that.data.friendInfo.openId,
+          msgType:"audio",
+          msgTime: "24:00",
+          msgContent:audioPathOnServer
+        }
+
+        console.log("newSignal",newSignal)
+        //发送部分
+        if(that.store.socketOpen){
+          wxp.sendSocketMessage({
+            data: JSON.stringify(newSignal) 
+          })
+        }
+        else{
+          console.log("socketOpen: ",that.store.socketOpen)
+        }
+
+        //渲染部分
+        if(this.store.conversations[this.data.friendInfo.openId]){
+          this.store.conversations[this.data.friendInfo.openId][newSignal.uuid]=newSignal;
+        }
+        else{
+          this.store.conversations[this.data.friendInfo.openId]={}
+          this.store.conversations[this.data.friendInfo.openId][newSignal.uuid]=newSignal;
+        }
+        this.setDataSmart({
+          conversations:this.store.conversations
+        })
+
+      },
+      fail:err=>{
+        console.log(err)
+      }
+    })
+
+    
   }
   
-  async onSend(){
+  onSend(){
     //信号生成
     const uuid=getUuid();
     console.log("uuid",uuid)
@@ -121,6 +182,20 @@ export default class extends MyPage {
   }
   onExtra(){
 
+  }
+
+  audioPlaying=false;
+  onClickAudio(e:any){
+    if(this.audioPlaying){
+      innerAudioContext.stop()
+      this.audioPlaying=false;
+    }else{
+      this.audioPlaying=true;
+      console.log(e.currentTarget.dataset.audio)
+      innerAudioContext.src=e.currentTarget.dataset.audio;
+      innerAudioContext.play()
+    }
+    
   }
   
   

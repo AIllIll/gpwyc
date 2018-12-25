@@ -42,7 +42,7 @@ export default class extends MyComponent {
    * 组件的初始数据
    */
   data = {
-
+    
   }
 
   /**
@@ -50,6 +50,10 @@ export default class extends MyComponent {
    */
   onPropUpdate(prop: string, newValue: any, oldValue: any) {
 
+  }
+
+  onClickAudio(){
+    this.triggerEvent("ClickAudio",{},{})
   }
 }
 
