@@ -10,7 +10,7 @@ export default class extends MyPage {
 
   async onLoad(options: any) {
   if(this.store.userInfo){
-    this.store.conversations=[{
+    /*this.store.conversations=[{
       nickName:this.store.userInfo.nickName,
       avatarUrl:this.store.userInfo.avatarUrl,
       badge:2,
@@ -22,7 +22,7 @@ export default class extends MyPage {
       badge:6666,
       motto:"motto",
       extra:"extra"
-    }]
+    }]*/
   }
    
   }

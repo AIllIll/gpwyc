@@ -20,9 +20,9 @@ export class MyStore extends MobxStore {
 
   @observable windowHeight: null|number=null
   
-  @observable conversations: any=[]
+  @observable conversations: any={}
   
-  @observable contacts: any=[]
+  @observable contacts: any={}
 
   
   @observable config:any ={
@@ -31,5 +31,6 @@ export class MyStore extends MobxStore {
 
   @observable socketOpen:boolean=false
 
-  @observable Timer1:any=null;
+  @observable Timer1:any=null
+
 }

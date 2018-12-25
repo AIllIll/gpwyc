@@ -5,28 +5,18 @@ import {pagify, MyPage, wxp} from 'base/'
 @pagify()
 export default class extends MyPage {
   data = {
-    contacts:[]
+    contacts:{}
   }
 
   async onLoad(options: any) {
     //console.log(await wxp.getUserInfo())
-    if(this.store.contacts.length==0 && this.store.userInfo){
-      this.store.contacts=[{
-        nickName:this.store.userInfo.nickName,
-        avatarUrl:this.store.userInfo.avatarUrl,
-        badge:2,
-        extra:"extra"
-      },{
-        nickName:this.store.userInfo.nickName,
-        avatarUrl:this.store.userInfo.avatarUrl,
-        badge:2,
-        extra:"extra"
-      }]
+    /*if(this.store.contacts=={} && this.store.userInfo){
+      
     }
     this.setDataSmart({
       contacts:this.store.contacts
     })
-    
+    */
   }
 
   onClickCard(e:any){

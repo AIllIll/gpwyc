@@ -12,7 +12,7 @@
         </view>
         <view class="inputBox-input-outer">
             <textarea class="inputBox-input-inner" show-confirm-bar="{{false}}" cursor-spacing="11"  
-            maxlength="{{maxlength}}" auto-height="{{true}}" fixed confirm-type="send" 
+            maxlength="{{maxlength}}" auto-height="{{true}}" fixed confirm-type="send"
             bind:input="onInputChange" bind:focus="onInputFocus" bind:blur="onInputBlur"
             value="{{inputValue}}"/>
         </view>

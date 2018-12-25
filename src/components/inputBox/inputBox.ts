@@ -118,11 +118,16 @@ export default class extends MyComponent {
   onInputFocus(){
     console.log("focus")
   }
-  onInputBlur(){
-    console.log("blur")//点击其他地方的时候，是先tap后blur
+  onInputBlur(e:any){
+    console.log("blur",e)//点击其他地方的时候，是先tap后blur
+    /*if(e.detail.value==""){
+      this.setDataSmart({isInputEmpty:true})
+    }else{
+      this.setDataSmart({isInputEmpty:false})
+    }*/
   }
   onInputChange(e:any){
-    console.log(e)
+    //console.log(e)
     const detail=e.detail;
     if(detail.value==""){
       this.setDataSmart({isInputEmpty:true})

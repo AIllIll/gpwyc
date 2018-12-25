@@ -113,6 +113,33 @@ export default class extends MyPage {
 
     wxp.onSocketMessage((message) => {
       console.log("WebSocket收到",message)
+      const signal=JSON.parse(String(message.data));
+      //console.log(signal)
+      //收到text
+      if(signal.msgType=="text"){
+        const fromUser=signal.fromUser;
+        const uuid=signal.uuid;
+        //console.log("this.store.conversations",this.store.conversations)
+        //console.log("this.store.conversations[fromUser]原来",this.store.conversations[fromUser])
+        if(this.store.conversations[fromUser]){
+          this.store.conversations[fromUser][uuid]=signal;
+        }else{
+          this.store.conversations[fromUser]={}
+          this.store.conversations[fromUser][uuid]=signal;
+        }
+        this.setDataSmart({
+          conversations:this.store.conversations
+        })
+        console.log("this.store.conversations[fromUser]变成",this.store.conversations[fromUser])
+        /*if(this.store.conversations[fromUser]){
+          console.log("233",this.store.conversations[fromUser][signal.uuid])
+          this.store.conversations[fromUser][signal.uuid]=signal;
+        }else{
+          const key=signal.uuid;
+          this.store.conversations[fromUser]=new Object({key:signal})
+        }
+        */  
+      }
     });
 
     wxp.onSocketClose(() => {

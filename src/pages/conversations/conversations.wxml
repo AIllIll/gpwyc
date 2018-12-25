@@ -4,6 +4,9 @@
   注意：
   1. 如果没有语法高亮，且你使用的是 vscode 编辑器的话，建义在 vscode 插件库中安装 minapp-vscode 插件
 -->
-<block wx:for="{{conversations}}" wx:key="{{item.openId}}">
-    <cell nickName="{{item.nickName}}" avatarUrl="{{item.avatarUrl}}" full="{{true}}" motto="{{item.motto}}" extra="{{item.extra}}" badge="{{item.badge}}" data-item="{{item}}" bind:tap="onClickCell"/>
+<block wx:for="{{conversations}}" wx:key="{{index}}">
+    {{index}}
+    <!--
+        <cell nickName="{{item[0].nickName}}" avatarUrl="{{item.avatarUrl}}" full="{{true}}" motto="{{item.motto}}" extra="{{item.extra}}" badge="{{item.badge}}" data-item="{{item}}" bind:tap="onClickCell"/>
+    -->
 </block>

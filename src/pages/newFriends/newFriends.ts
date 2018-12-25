@@ -19,7 +19,7 @@ export default class extends MyPage {
       url:"https://"+this.store.config.host+"/users",
       method:"GET",
       success:(res:any)=>{
-        console.log("success",res)
+        //console.log("获取全用户列表成功",res)
         this.setDataSmart({
           searchResults:res.data
         })
