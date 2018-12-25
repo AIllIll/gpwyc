@@ -55,6 +55,10 @@ export default class extends MyPage {
   async wechatLogin(){
     const store=this.store;
     if(this.store.userInfo){
+      //先建立ws，并且保持心跳
+      this.connect();
+      this.store.Timer1=setInterval(this.heartbeat,50000)
+      //获取openId
       await wafer.request({
         login:true,
         url:"https://"+this.store.config.host+"/me",
@@ -78,6 +82,56 @@ export default class extends MyPage {
         icon:"none"
       })
     }
+  }
+
+  //websocket函数
+  async connect(){
+    this.listen();
+    const config=this.store.config;
+    wafer.setLoginUrl(`https://${config.host}/login`);
+    await wafer.login({
+      success: () => {
+        const header = wafer.buildSessionHeader();
+        const query = Object.keys(header).map(key => `${key}=${encodeURIComponent(header[key])}`).join('&');
+        wxp.connectSocket({
+          // 小程序 wx.connectSocket() API header 参数无效，把会话信息附加在 URL 上
+          url: `wss://${this.store.config.host}/ws?${query}`,
+          header
+        });
+      },
+      fail: (err:any) => {
+        console.log("wafer登录失败")
+      }
+    });
+  }
+
+  listen() {
+    wxp.onSocketOpen(() => {
+      this.store.socketOpen = true;
+      console.info('WebSocket 已连接');
+    });
+
+    wxp.onSocketMessage((message) => {
+      console.log("WebSocket收到",message)
+    });
+
+    wxp.onSocketClose(() => {
+      this.store.socketOpen=false;
+      console.info('WebSocket 已关闭');
+    });
+    
+    wxp.onSocketError(() => {
+      this.store.socketOpen=false;
+      console.error('WebSocket 错误');
+    });
+  }
+
+  heartbeat(){
+    console.log("heartbeating")
+    const heartbeatSignal={
+      msgType:'heartbeat'
+    }
+    wxp.sendSocketMessage({data:JSON.stringify(heartbeatSignal)})
   }
 
 }

@@ -1,7 +1,6 @@
 // 此文件是由模板文件 ".dtpl/page/$rawModuleName.ts.dtpl" 生成的，你可以自行修改模板
 
 import {pagify, MyPage, wxp} from 'base/'
-const wafer=require("wafer-client-sdk/index")
 const getUuid=require("uuid/v4")
 
 @pagify()
@@ -15,7 +14,6 @@ export default class extends MyPage {
     inputValue:"",
     history:new Array
   }
-  socketOpen = false;
 
   async onLoad(options: any) {
     //console.log(JSON.parse(options.friendInfo))
@@ -26,9 +24,6 @@ export default class extends MyPage {
   }
 
   async onUnload(){
-    if (this.socketOpen){
-      await this.close();
-    }
   }
 
   onInputChange(e:any){
@@ -58,16 +53,13 @@ export default class extends MyPage {
     
     //发送部分
     
-    if(this.socketOpen){
+    if(this.store.socketOpen){
       wxp.sendSocketMessage({
         data: JSON.stringify(newSignal)
-      });
+      })
     }
     else{
-      await this.connect();
-      wxp.sendSocketMessage({
-        data: JSON.stringify(newSignal)
-      });
+      console.log("socketOpen: ",this.store.socketOpen)
     }
     
 
@@ -83,52 +75,8 @@ export default class extends MyPage {
 
   }
   
-  //websocket函数
-  async connect(){
-    this.listen();
-    const config=this.store.config;
-    wafer.setLoginUrl(`https://${config.host}/login`);
-    await wafer.login({
-      success: () => {
-        const header = wafer.buildSessionHeader();
-        const query = Object.keys(header).map(key => `${key}=${encodeURIComponent(header[key])}`).join('&');
-        wxp.connectSocket({
-          // 小程序 wx.connectSocket() API header 参数无效，把会话信息附加在 URL 上
-          url: `wss://${this.store.config.host}/ws?${query}`,
-          header
-        });
-      },
-      fail: (err:any) => {
-        console.log("wafer登录失败")
-      }
-    });
-  }
-
-  listen() {
-    wxp.onSocketOpen(() => {
-      this.socketOpen = true;
-      console.info('WebSocket 已连接');
-    });
-
-    wxp.onSocketMessage((message) => {
-      console.log("WebSocket收到",message)
-    });
-
-    wxp.onSocketClose(() => {
-      this.socketOpen=false;
-      console.info('WebSocket 已关闭');
-    });
-    
-    wxp.onSocketError(() => {
-      this.socketOpen=false;
-      console.error('WebSocket 错误');
-    });
-  }
   
-  close(){
-    this.socketOpen = false;
-    wxp.closeSocket();
-  }
+  
 
 
 }

@@ -16,7 +16,7 @@ export class MyStore extends MobxStore {
    */
   @observable userInfo: null | wx.getUserInfo.ParamPropSuccessParamPropUserInfo = null
 
-  @observable openId: null|String=null
+  @observable openId: null|string=null
 
   @observable windowHeight: null|number=null
   
@@ -29,5 +29,7 @@ export class MyStore extends MobxStore {
     host:"ttissoft.cn"
   }
 
-  @observable ws: any=null;
+  @observable socketOpen:boolean=false
+
+  @observable Timer1:any=null;
 }
