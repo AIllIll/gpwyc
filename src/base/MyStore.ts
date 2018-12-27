@@ -30,6 +30,7 @@ export class MyStore extends MobxStore {
   }
 
   @observable socketOpen:boolean=false
+  @observable needReconnect:boolean=false
 
   @observable Timer1:any=null
 

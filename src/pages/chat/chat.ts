@@ -18,7 +18,8 @@ export default class extends MyPage {
   async onLoad(options: any) {
     //console.log(JSON.parse(options.friendInfo))
     this.setDataSmart({
-      friendInfo:JSON.parse(options.friendInfo)
+      friendInfo:JSON.parse(options.friendInfo),
+      conversations:this.store.conversations
     })
     //this.connect()
 

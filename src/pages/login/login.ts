@@ -53,10 +53,10 @@ export default class extends MyPage {
   }
 
   async wechatLogin(){
+    const that=this;
     const store=this.store;
     if(this.store.userInfo){
       //先建立ws，并且保持心跳
-      this.connect();
       this.store.Timer1=setInterval(this.heartbeat,50000)
       //获取openId
       await wafer.request({
@@ -64,9 +64,9 @@ export default class extends MyPage {
         url:"https://"+this.store.config.host+"/me",
         method:"GET",
         success:(res:any)=>{
-          console.log(res)
+          console.log("获取会话成功",res)
           store.openId=res.data.openId;
-          console.log("666")
+          that.connect();
           wxp.switchTab({
             url:"../conversations/conversations"
           })
@@ -116,7 +116,7 @@ export default class extends MyPage {
       const signal=JSON.parse(String(message.data));
       //console.log(signal)
       //收到text
-      if(signal.msgType=="text"){
+      if(signal.msgType=="text"||signal.msgType=="audio"){
         const fromUser=signal.fromUser;
         const uuid=signal.uuid;
         //console.log("this.store.conversations",this.store.conversations)
@@ -156,6 +156,7 @@ export default class extends MyPage {
   heartbeat(){
     console.log("heartbeating")
     const heartbeatSignal={
+      fromUser:this.store.openId,
       msgType:'heartbeat'
     }
     wxp.sendSocketMessage({data:JSON.stringify(heartbeatSignal)})
