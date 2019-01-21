@@ -18,6 +18,7 @@
     "pages/broadcast/broadcast",
     "pages/newFriends/newFriends",
     "pages/chat/chat",
+    "pages/publish/publish",
     /*# INJECT_END #*/
   ],
   "window": {

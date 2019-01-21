@@ -23,8 +23,15 @@ export default class extends MyPage {
     })
     //this.connect()
 
-    console.log(this.store.conversations)
 
+    //创建callback，让receiver能进行页面渲染
+    const that=this;
+    this.store.chatPageCallback=function(){
+      that.setDataSmart({
+        conversations:this.conversations
+      })
+    }
+    /*
     wxp.onSocketMessage((message) => {
       console.log("WebSocket收到",message)
       const signal=JSON.parse(String(message.data));
@@ -47,6 +54,7 @@ export default class extends MyPage {
         console.log("this.store.conversations[fromUser]变成",this.store.conversations[fromUser])
       }
     });
+    */
 
 
     innerAudioContext.onPlay(() => {
@@ -141,7 +149,7 @@ export default class extends MyPage {
       fromUser:this.store.openId,
       toUser:this.data.friendInfo.openId,
       msgType:"text",
-      msgTime: "24:00",
+      msgTime: new Date(),
       msgContent:this.data.inputValue
     }
     

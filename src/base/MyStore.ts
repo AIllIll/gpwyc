@@ -20,10 +20,16 @@ export class MyStore extends MobxStore {
 
   @observable windowHeight: null|number=null
   
+  //历史记录
   @observable conversations: any={}
   
   @observable contacts: any={}
 
+  @observable notice: any={
+    unread:{},
+    read:{},
+    mine:{}
+  }
   
   @observable config:any ={
     host:"ttissoft.cn"
@@ -33,5 +39,8 @@ export class MyStore extends MobxStore {
   @observable needReconnect:boolean=false
 
   @observable Timer1:any=null
+
+  chatPageCallback:any=null;
+  newsPageCallback:any=null;
 
 }

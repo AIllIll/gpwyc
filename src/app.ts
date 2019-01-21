@@ -37,7 +37,8 @@ export default class extends MyApp {
     host: 'ttissoft.cn'
   }
 
-  onUnlaunch(){
+  async onhide(){
+    
     
   }
   
@@ -51,6 +52,10 @@ export default class extends MyApp {
     console.log("app hide")
     this.store.socketOpen=false;
     this.store.needReconnect=true;
+
+    wxp.setStorageSync("conversations"+this.store.openId, this.store.conversations);
+    wxp.setStorageSync("contacts"+this.store.openId, this.store.contacts);
+    wxp.setStorageSync("notice"+this.store.openId, this.store.notice);
   }
 
   //websocket函数

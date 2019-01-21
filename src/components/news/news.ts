@@ -8,7 +8,31 @@ export default class extends MyComponent {
    * 组件的属性列表
    */
   properties = {
-    
+    newsType:{
+      type:String,
+      value:""
+    },
+    title:{
+      type:String,
+      value:""
+    },
+    img1:{
+      type:String,
+      value:""
+    },
+    img2:{
+      type:String,
+      value:""
+    },
+    img3:{
+      type:String,
+      value:""
+    },
+    newsTime:{
+      type:String,
+      value:""
+    }
+
   }
 
   /**

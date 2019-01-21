@@ -1,0 +1,89 @@
+<!--
+  此文件是由模板文件 ".dtpl/page/$rawModuleName.wxml.dtpl" 生成的，你可以自行修改模板
+
+  注意：
+  1. 如果没有语法高亮，且你使用的是 vscode 编辑器的话，建义在 vscode 插件库中安装 minapp-vscode 插件
+-->
+
+<block wx:if="{{status==0}}">
+    <view class="weui-cells__title">选择ding对象</view>
+    <view class="weui-cells weui-cells_after-title">
+        <checkbox-group bindchange="checkboxChange">
+            <label class="weui-cell weui-check__label" wx:for="{{checkboxItems}}" wx:key="{{index}}">
+                <checkbox class="weui-check" value="{{item.value}}" checked="{{item.checked}}"/>
+                <view class="weui-cell__hd weui-check__hd_in-checkbox">
+                    <icon class="weui-icon-checkbox_circle" type="circle" size="23" wx:if="{{!item.checked}}"></icon>
+                    <icon class="weui-icon-checkbox_success" type="success" size="23" wx:if="{{item.checked}}"></icon>
+                </view>
+                <view class="weui-cell__hd" style="position: relative;margin-right: 10px;">
+                    <image src="{{item.avatarUrl}}" style="width: 40px; height: 40px; display: block"/>
+                </view>
+                <view class="weui-cell__bd">{{item.nickName}}</view>
+            </label>
+        </checkbox-group>
+    </view>
+    
+</block>
+
+
+<block wx:if="{{status==1}}">
+    <view class="weui-cells__title">请输入通知</view>
+    <view class="weui-cells weui-cells_after-title">
+        <view class="weui-cell weui-cell_input">
+            <view class="weui-cell__hd">
+                <view class="weui-label">日期</view>
+            </view>
+            <view class="weui-cell__bd">
+                <picker mode="date" value="{{date}}" start="2018-09-01" end="2020-09-01" bindchange="bindDateChange">
+                    <view class="weui-input">{{date}}</view>
+                </picker>
+            </view>
+        </view>
+        <view class="weui-cell weui-cell_input">
+            <view class="weui-cell__hd">
+                <view class="weui-label">时间</view>
+            </view>
+            <view class="weui-cell__bd">
+                <picker mode="time" value="{{time}}" start="00:00" end="23:59" bindchange="bindTimeChange">
+                    <view class="weui-input">{{time}}</view>
+                </picker>
+            </view>
+        </view>
+    </view>
+
+    <view class="weui-cells__title">标题</view>
+    <view class="weui-cells weui-cells_after-title">
+        <view class="weui-cell weui-cell_input">
+            <view class="weui-cell__bd">
+                <input class="weui-input" placeholder="请输入标题" bindinput='bindTitleChange' />
+            </view>
+        </view>
+    </view>
+
+    <view class="weui-cells__title">内容</view>
+    <view class="weui-cells weui-cells_after-title">
+        <view class="weui-cell">
+            <view class="weui-cell__bd">
+                <textarea class="weui-textarea" placeholder="请输入通知内容" style="height: 6em" bindinput='bindContentChange'/>
+                <view class="weui-textarea-counter">{{contentLength}}/140</view>
+            </view>
+        </view>
+    </view>
+    
+</block>
+
+<block wx:if="{{status==2}}">
+</block>
+
+<view class="weui-btn-area">
+    <button class="weui-btn" type="primary" bindtap="onClickReturn"wx:if="{{status==0}}">返回</button>
+</view>
+<view class="weui-btn-area">
+    <button class="weui-btn" type="primary" bindtap="onClickLastStep" wx:if="{{status>0}}">上一步</button>
+</view>
+<view class="weui-btn-area">
+    <button class="weui-btn" type="primary" bindtap="onClickNextStep"wx:if="{{status<1}}">下一步</button>
+</view>
+<view class="weui-btn-area">
+    <button class="weui-btn" type="primary" bindtap="onClickConfirm"wx:if="{{status==1}}">发布</button>
+</view>

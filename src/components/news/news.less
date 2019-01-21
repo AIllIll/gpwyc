@@ -3,3 +3,59 @@
 
   注意：文件为空，编译时不会生成新文件
 */
+.news-cell{
+  display: flex; 
+  flex-direction: column;
+  width: 100%;
+  background-color: white;
+}
+.news-cell-hover{
+  background-color: #D9D9D9;
+}
+.news-cell::after {
+  content: " ";
+  align-self: center;
+  width: 90%;
+  height: 1px;
+  border-top: 1rpx solid #D9D9D9;
+  color: #D9D9D9;
+}
+.news-cell-row{
+  margin-left: 30rpx;
+  margin-top: 5px;
+  margin-right: 30rpx;
+}
+.news-cell-title{
+  font-size: 16px;
+  margin-left: 5rpx;
+  margin-right: 5rpx;
+}
+.news-cell-title2{
+  font-size: 16px;
+  margin-left: 5rpx;
+  margin-right: 5rpx;
+  min-height: 50px;
+}
+.news-cell-img{
+  margin-left: 5rpx;
+  margin-right: 5rpx;
+  margin-top: 10rpx;
+  height: 160rpx;
+  width: 220rpx;
+  float: right
+}
+.news-cell-video{
+  margin-left: 5rpx;
+  margin-right: 5rpx;
+  margin-top: 10rpx;
+  height: 400rpx;
+  width: 680rpx;
+  align-self: center;
+}
+.news-cell-details{
+  margin-left: 35rpx;
+  margin-top: 10rpx;
+  margin-bottom: 10rpx;
+  font-size: 10px;
+  color: rgba(128, 128, 128, 0.658);
+}

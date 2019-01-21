@@ -4,5 +4,9 @@
   注意：
   1. 如果没有语法高亮，且你使用的是 vscode 编辑器的话，建义在 vscode 插件库中安装 minapp-vscode 插件
 -->
-
-<text>page: machine</text>
+<!--
+<button type="primary" bind:tap="getQR">获取</button>
+<image style="height:60px;width:60px;" wx:if="{{QRcode}}" src="{{QRcode}}" />
+<image style="height:60px;width:60px;" wx:else src="{{userInfo.avatarUrl}}" />
+<image style="height:60px;width:60px;"  src="https://ttissoft.cn/testQR" />
+-->

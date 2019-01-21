@@ -67,6 +67,7 @@ export default class extends MyPage {
           console.log("获取会话成功",res)
           store.openId=res.data.openId;
           that.connect();
+          that.getHistory();
           wxp.switchTab({
             url:"../conversations/conversations"
           })
@@ -114,11 +115,9 @@ export default class extends MyPage {
     wxp.onSocketMessage((message) => {
       console.log("WebSocket收到",message)
       const signal=JSON.parse(String(message.data));
-      //console.log(signal)
-      //收到text
+      const fromUser=signal.fromUser;
+      const uuid=signal.uuid;
       if(signal.msgType=="text"||signal.msgType=="audio"){
-        const fromUser=signal.fromUser;
-        const uuid=signal.uuid;
         //console.log("this.store.conversations",this.store.conversations)
         //console.log("this.store.conversations[fromUser]原来",this.store.conversations[fromUser])
         if(this.store.conversations[fromUser]){
@@ -127,18 +126,28 @@ export default class extends MyPage {
           this.store.conversations[fromUser]={}
           this.store.conversations[fromUser][uuid]=signal;
         }
-        this.setDataSmart({
-          conversations:this.store.conversations
-        })
         console.log("this.store.conversations[fromUser]变成",this.store.conversations[fromUser])
-        /*if(this.store.conversations[fromUser]){
-          console.log("233",this.store.conversations[fromUser][signal.uuid])
-          this.store.conversations[fromUser][signal.uuid]=signal;
-        }else{
-          const key=signal.uuid;
-          this.store.conversations[fromUser]=new Object({key:signal})
+        
+        if(this.store.chatPageCallback){
+          this.store.chatPageCallback()
         }
-        */  
+
+      }else if(signal.msgType=="notice"){
+        
+        
+        this.store.notice.unread[uuid]=signal;
+        if(this.store.newsPageCallback){
+          this.store.newsPageCallback()
+        }
+
+      }else if(signal.msgType=="feedback"){
+
+        if(this.store.newsPageCallback){
+          this.store.newsPageCallback()
+        }
+        if(this.store.chatPageCallback){
+          this.store.chatPageCallback()
+        }
       }
     });
 
@@ -162,4 +171,10 @@ export default class extends MyPage {
     wxp.sendSocketMessage({data:JSON.stringify(heartbeatSignal)})
   }
 
+  //历史记录函数
+  async getHistory(){
+    this.store.conversations=wxp.getStorageSync("conversations"+this.store.openId)||{};
+    this.store.contacts=wxp.getStorageSync("contacts"+this.store.openId)||{};
+    this.store.notice=wxp.getStorageSync("notice"+this.store.openId)||{unread:{},read:{},mine:{}};
+  }
 }

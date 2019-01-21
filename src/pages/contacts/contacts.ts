@@ -20,7 +20,10 @@ export default class extends MyPage {
   }
 
   onClickCard(e:any){
-    console.log(e)
+    const friendInfo=e.currentTarget.dataset.item;
+    wxp.navigateTo({
+      url:"../chat/chat?friendInfo="+JSON.stringify(friendInfo)
+    })
   }
   onClickNewFriends(){
     wxp.navigateTo({

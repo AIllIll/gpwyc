@@ -5,4 +5,65 @@
   1. 如果没有语法高亮，且你使用的是 vscode 编辑器的话，建义在 vscode 插件库中安装 minapp-vscode 插件
 -->
 
-<text>component: news</text>
+<block wx:if="{{newsType=='noImg'}}">
+    <view class='news-cell' hover-class='news-cell-hover' bindtap='onClickNews'>
+        <view class='news-cell-row'>
+            <view class='news-cell-title2'>
+                <text>{{title}}</text>
+            </view>
+        </view>
+        <text class='news-cell-details'>{{newsTime}}</text>
+    </view>
+</block>
+<block wx:elif="{{newsType=='oneImg'}}">
+    <view class='news-cell' hover-class='news-cell-hover' bindtap='onClickNews'>
+        <view class='news-cell-row'>
+            <image class='news-cell-img' src='{{img1}}'></image>
+            <view class='news-cell-title'>
+                <text>{{title}}</text>
+            </view>
+        </view>
+        <text class='news-cell-details'>{{newsTime}}</text>
+    </view>
+</block>
+<block wx:elif="{{newsType=='threeImg'}}">
+    <view class='news-cell' hover-class='news-cell-hover' bindtap='onClickNews'>
+        <view class='news-cell-row'>
+            <view class='news-cell-title'>
+                <text>{{title}}</text>
+            </view>
+        </view>
+        <view class='news-cell-row'>
+            <image class='news-cell-img' src='{{img3}}'></image><!--因为是float靠右的，要倒序-->
+            <image class='news-cell-img' src='{{img2}}'></image>
+            <image class='news-cell-img' src='{{img1}}'></image>
+        </view>
+        <text class='news-cell-details'>{{newsTime}}</text>
+    </view>
+</block>
+<block wx:elif="{{newsType=='bigImg'}}">
+    <view class='news-cell' hover-class='news-cell-hover' bindtap='onClickNews'>
+        <view class='news-cell-row'>
+            <view class='news-cell-title'>
+                <text>{{title}}</text>
+            </view>
+        </view>
+        <view class='news-cell-row'>
+            <image class='news-cell-video' src='{{img1}}'></image> 
+        </view>
+        <text class='news-cell-details'>{{newsTime}}</text>
+    </view>
+</block>
+<block wx:elif="{{newsType=='oneVideo'}}">
+    <view class='news-cell' hover-class='news-cell-hover' bindtap='onClickNews'>
+        <view class='news-cell-row'>
+            <view class='news-cell-title'>
+                <text>{{title}}</text>
+            </view>
+        </view>
+        <view class='news-cell-row'>
+            <video id="myVideo" class='news-cell-video' src='{{vid}}'></video>
+        </view>
+        <text class='news-cell-details'>{{newsTime}}</text>
+    </view>
+</block>

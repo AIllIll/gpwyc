@@ -5,15 +5,42 @@
   1. 如果没有语法高亮，且你使用的是 vscode 编辑器的话，建义在 vscode 插件库中安装 minapp-vscode 插件
 -->
 <view class="topbar">
-    <icon type="search" class="topbar-icon" bind:tap="onClickSearch"/>
+    <icon type="search" class="topbar-icon" bind:tap="onClickAdd"/>
     <tagbar current="{{current}}" color="#3099ff" scroll="{{true}}" bindchange="handleChange" > 
         <tag key="notice" title="通知" data-key="notice"></tag>
+        <tag key="focus" title="热点" data-key="focus"></tag>
+        <tag key="sports" title="体育" data-key="sports"></tag>
+        <tag key="entertainment" title="娱乐" data-key="entertainment"></tag>
         <tag key="history" title="历史" data-key="history"></tag>
         <tag key="topic" title="话题" data-key="topic"></tag>
         <tag key="comment" title="评论" data-key="comment"></tag>
         <tag key="collect" title="收藏" data-key="collect"></tag> 
     </tagbar>
 </view>
-<scroll-view class="newspaper">
-    
-</scroll-view>
+
+
+
+
+
+<view class="newspaper">
+    <block wx:for="{{notice['unread']}}" wx:key="{{index}}">
+        <news newsType="noImg" title="{{item.title}}" newsTime="{{item.msgTime}}"/>
+    </block>
+    <view hidden="{{current!='notice'}}">
+        <block wx:for="{{notice['read']}}" wx:key="{{index}}">
+            <news newsType="noImg" title="{{item.title}}" newsTime="{{item.msgTime}}"/>
+        </block>
+    </view>
+    <view hidden="{{current!='focus'}}">
+        <block wx:for="{{newsList_focus}}" wx:key="{{index}}">
+            <news newsType="{{item.newsType}}" title="{{item.title}}" newsTime="{{item.newsTime}}" 
+                img1="{{item.img[0]}}" img2="{{item.img[1]}}" img3="{{item.img[2]}}"/>
+        </block>
+    </view>
+    <view hidden="{{current!='sports'}}">
+        <block wx:for="{{newsList_sports}}" wx:key="{{index}}">
+            <news newsType="{{item.newsType}}" title="{{item.title}}" newsTime="{{item.newsTime}}" 
+                img1="{{item.img[0]}}" img2="{{item.img[1]}}" img3="{{item.img[2]}}"/>
+        </block>
+    </view> 
+</view>

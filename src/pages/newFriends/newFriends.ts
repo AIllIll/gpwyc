@@ -23,6 +23,7 @@ export default class extends MyPage {
         this.setDataSmart({
           searchResults:res.data
         })
+        this.store.contacts=res.data
       },
       fail:(err:any)=>{
         console.log(err)
