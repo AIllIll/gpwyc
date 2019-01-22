@@ -5,6 +5,7 @@
   1. 如果没有语法高亮，且你使用的是 vscode 编辑器的话，建义在 vscode 插件库中安装 minapp-vscode 插件
 -->
 <card nickName="全部用户" avatarUrl="../../images/avatar/addFriends.png" bind:tap="onClickNewFriends"/>
+<card nickName="通讯历史" avatarUrl="../../images/avatar/history.png" bind:tap="onClickHistory"/>
 <block wx:for="{{contacts}}" wx:key="{{item.openId}}">
     <card nickName="{{item.nickName}}" avatarUrl="{{item.avatarUrl}}" 
         full="{{true}}" motto="{{item.motto}}" extra="{{item.extra}}" 

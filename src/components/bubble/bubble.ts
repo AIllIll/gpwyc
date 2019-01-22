@@ -32,6 +32,10 @@ export default class extends MyComponent {
       type:String,
       value:""
     },
+    msgStatus:{
+      type:String,
+      value:""
+    },
     audioLength:{
       type:String,
       value:""

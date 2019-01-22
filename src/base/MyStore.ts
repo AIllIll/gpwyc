@@ -24,6 +24,8 @@ export class MyStore extends MobxStore {
   @observable conversations: any={}
   
   @observable contacts: any={}
+  
+  @observable allUsers: any={}
 
   @observable notice: any={
     unread:{},
@@ -40,7 +42,11 @@ export class MyStore extends MobxStore {
 
   @observable Timer1:any=null
 
+  @observable currentChat:any=null
+
   chatPageCallback:any=null;
+  groupChatPageCallback:any=null;
   newsPageCallback:any=null;
+
 
 }

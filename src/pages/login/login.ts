@@ -63,13 +63,26 @@ export default class extends MyPage {
         login:true,
         url:"https://"+this.store.config.host+"/me",
         method:"GET",
-        success:(res:any)=>{
+        success: async (res:any)=>{
           console.log("获取会话成功",res)
           store.openId=res.data.openId;
           that.connect();
           that.getHistory();
-          wxp.switchTab({
-            url:"../conversations/conversations"
+          await wafer.request({
+            login:true,
+            url:"https://"+this.store.config.host+"/users",
+            method:"GET",
+            success:(res:any)=>{
+              //console.log("获取全用户列表成功",res)
+              this.store.allUsers=res.data
+              console.log("allUsers",this.store.allUsers)
+              wxp.switchTab({
+                url:"../contacts/contacts"
+              })
+            },
+            fail:(err:any)=>{
+              console.log(err)
+            }
           })
         },
         fail:(err:any)=>{
@@ -126,24 +139,42 @@ export default class extends MyPage {
           this.store.conversations[fromUser]={}
           this.store.conversations[fromUser][uuid]=signal;
         }
-        console.log("this.store.conversations[fromUser]变成",this.store.conversations[fromUser])
+        //console.log("this.store.conversations[fromUser]变成",this.store.conversations[fromUser])
         
         if(this.store.chatPageCallback){
-          this.store.chatPageCallback()
+          this.store.chatPageCallback(fromUser)
         }
 
+      }else if(signal.msgType=="groupText"||signal.msgType=="groupAudio"){
+        //console.log("this.store.conversations",this.store.conversations)
+        //console.log("this.store.conversations[fromUser]原来",this.store.conversations[fromUser])
+        if(this.store.conversations[fromUser]){
+          this.store.conversations[fromUser][uuid]=signal;
+        }else{
+          this.store.conversations[fromUser]={}
+          this.store.conversations[fromUser][uuid]=signal;
+        }
+        console.log("this.store.conversations[fromUser]变成",this.store.conversations[fromUser])
+        
+        if(this.store.groupChatPageCallback){
+          this.store.groupChatPageCallback()
+        }
+      
       }else if(signal.msgType=="notice"){
-        
-        
         this.store.notice.unread[uuid]=signal;
         if(this.store.newsPageCallback){
           this.store.newsPageCallback()
         }
 
       }else if(signal.msgType=="feedback"){
-
-        if(this.store.newsPageCallback){
-          this.store.newsPageCallback()
+        console.log("feedback")
+        const feedbackUuid=signal.feedbackUuid;
+        if(this.store.conversations[fromUser]){
+          for(var key in this.store.conversations[fromUser]){
+            if(this.store.conversations[fromUser][key].uuid==feedbackUuid){
+              this.store.conversations[fromUser][key].msgStatus="已读"
+            }
+          }
         }
         if(this.store.chatPageCallback){
           this.store.chatPageCallback()
@@ -177,4 +208,5 @@ export default class extends MyPage {
     this.store.contacts=wxp.getStorageSync("contacts"+this.store.openId)||{};
     this.store.notice=wxp.getStorageSync("notice"+this.store.openId)||{unread:{},read:{},mine:{}};
   }
+
 }

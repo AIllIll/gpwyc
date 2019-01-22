@@ -16,20 +16,48 @@ export default class extends MyPage {
   }
 
   async onLoad(options: any) {
+    console.log("chat onload")
     //console.log(JSON.parse(options.friendInfo))
-    this.setDataSmart({
+    //渲染好友信息和消息
+    await this.setDataSmart({
       friendInfo:JSON.parse(options.friendInfo),
       conversations:this.store.conversations
     })
-    //this.connect()
-
-
+    //将这个好友列在联系人列表中
+    this.store.contacts[this.data.friendInfo.openId]=this.data.friendInfo
+    this.setDataSmart({
+      contacts:this.store.contacts
+    })
+    console.log("this.store.contacts[this.data.friendInfo.openId]",this.store.contacts[this.data.friendInfo.openId])
+    //已收到的未读信号，在点开的时候进行反馈已读，并且标记当前聊天对象
+    this.store.currentChat=this.data.friendInfo.openId;
+    for(var key in this.store.conversations[this.data.friendInfo.openId]){
+      const signal=this.store.conversations[this.data.friendInfo.openId][key];
+      if(signal.msgStatus=="已发送"&&signal.fromUser==this.data.friendInfo.openId){
+        console.log("刚打开页面 进行feedback")
+        signal.msgStatus="已读"
+        this.readFeedback(this.data.friendInfo.openId,this.store.conversations[this.data.friendInfo.openId][key].uuid)
+      }
+    }
     //创建callback，让receiver能进行页面渲染
     const that=this;
-    this.store.chatPageCallback=function(){
+    this.store.chatPageCallback=function(fromUser:any="none"){
+      console.log(fromUser)
+      //页面渲染
       that.setDataSmart({
         conversations:this.conversations
       })
+      //进行页面渲染说明接收到了信号，如果信号来源和当前对象一致，可以进行feedback
+      if(that.store.currentChat==fromUser){
+        for(var key in that.store.conversations[that.data.friendInfo.openId]){
+          const signal=that.store.conversations[that.data.friendInfo.openId][key];
+          if(signal.msgStatus=="已发送"&&signal.fromUser==that.data.friendInfo.openId){
+            console.log("callback 信号来源和当前对象一致 进行feedback")
+            signal.msgStatus="已读"
+            that.readFeedback(that.data.friendInfo.openId,that.store.conversations[that.data.friendInfo.openId][key].uuid)
+          }
+        }
+      }
     }
     /*
     wxp.onSocketMessage((message) => {
@@ -70,7 +98,17 @@ export default class extends MyPage {
     })
   }
 
+  async onShow(){
+    console.log("chat onshow")
+  }
+  async onHide(){
+    console.log("chat onhide")
+  }
+
   async onUnload(){
+    console.log("chat onUnload")
+    //清空当前聊天对象
+    this.store.currentChat=null;
   }
 
   onInputChange(e:any){
@@ -96,6 +134,10 @@ export default class extends MyPage {
         audioPathOnServer='https://ttissoft.cn/testfile0?filename='+feedback.filename;
         console.log("audioPathOnServer",audioPathOnServer)
 
+        const date=new Date();
+        const msgTime=date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate()+' '+date.toTimeString().slice(0,8)
+        const audioLength=e.detail.audioLength;
+        console.log("audioLength",audioLength)
         //信号生成
         const uuid=getUuid();
         console.log("uuid",uuid)
@@ -104,7 +146,9 @@ export default class extends MyPage {
           fromUser:that.store.openId,
           toUser:that.data.friendInfo.openId,
           msgType:"audio",
-          msgTime: "24:00",
+          msgTime: msgTime,
+          audioLength:audioLength.toFixed(1),
+          msgStatus:'已发送',
           msgContent:audioPathOnServer
         }
 
@@ -142,6 +186,9 @@ export default class extends MyPage {
   
   onSend(){
     //信号生成
+    const date=new Date();
+    const msgTime=date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate()+' '+date.toTimeString().slice(0,8)
+     //const msgTime=date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate()+' '+date.getHours()+':'+date.getMinutes()+':'+date.getSeconds()
     const uuid=getUuid();
     console.log("uuid",uuid)
     const newSignal={
@@ -149,7 +196,8 @@ export default class extends MyPage {
       fromUser:this.store.openId,
       toUser:this.data.friendInfo.openId,
       msgType:"text",
-      msgTime: new Date(),
+      msgTime: msgTime,
+      msgStatus:'已发送', 
       msgContent:this.data.inputValue
     }
     
@@ -207,6 +255,36 @@ export default class extends MyPage {
     
   }
   
+
+  //已读反馈
+  readFeedback(toUser:string,feedbackUuid:string){
+    //信号生成
+    const date=new Date();
+    const msgTime=date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate()+' '+date.toTimeString().slice(0,8)
+     //const msgTime=date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate()+' '+date.getHours()+':'+date.getMinutes()+':'+date.getSeconds()
+    const uuid=getUuid();
+    console.log("uuid",uuid)
+    const newSignal={
+      uuid:uuid,
+      fromUser:this.store.openId,
+      toUser:toUser,
+      feedbackUuid:feedbackUuid,
+      msgType:"feedback",
+      msgTime: msgTime,
+      msgStatus:'已读'
+    }
+    
+    //发送部分
+    
+    if(this.store.socketOpen){
+      wxp.sendSocketMessage({
+        data: JSON.stringify(newSignal)
+      })
+    }
+    else{
+      console.log("socketOpen: ",this.store.socketOpen)
+    }
+  }
   
   
 

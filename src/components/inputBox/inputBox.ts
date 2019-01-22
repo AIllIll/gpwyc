@@ -34,14 +34,15 @@ export default class extends MyComponent {
   }
   onCreated(){
     console.log("create")
-    recorderManager.onStop((res)=>{
+    recorderManager.onStop((res:any)=>{
       //console.log(res.tempFilePath)
-      
+      console.log("res",res)
+      const audioLength=res.duration/1000;
       if(this.data.hasCancel){
         this.triggerEvent("Cancel",{},{})
         this.data.hasCancel=false;
       }else{
-        this.triggerEvent("Finish",{tempAudioPath:res.tempFilePath},{})
+        this.triggerEvent("Finish",{tempAudioPath:res.tempFilePath,audioLength:audioLength},{})
         wx.showToast({
           title:"录音成功"
         })

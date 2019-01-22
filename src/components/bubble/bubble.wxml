@@ -9,25 +9,26 @@
 
         <image class="bubble-avatar" src="{{avatarUrl}}"/>
 
-        <block wx:if="{{msgType==='text'}}">
+        <block wx:if="{{msgType==='text'||msgType==='groupText'}}">
             <view class="bubble-triangle-mine"></view>
             <view class="bubble-word bubble-word-mine" hover-class="bubble-hover">
                 <text selectable='true'>{{msgContent}}</text>
-                <view class="bubble-word-remark bubble-word-remark-mine">已读 {{msgTime}}</view>
+                <view class="bubble-word-remark bubble-word-remark-mine">{{msgStatus}} {{msgTime}}</view>
             </view>
         </block>
-        <block wx:elif="{{msgType==='image'}}">
+        <block wx:elif="{{msgType==='image'||msgType==='groupImage'}}">
             <view class="bubble-triangle-mine"></view>
             <view class="bubble-word bubble-word-mine" hover-class="bubble-hover">
                 <image class="bubble-image"  mode="widthFix" src="{{imageSrc}}"/>
-                <view class="bubble-word-remark bubble-word-remark-mine">已读 {{msgTime}}</view>
+                <view class="bubble-word-remark bubble-word-remark-mine">{{msgStatus}} {{msgTime}}</view>
             </view>
         </block>
-        <block wx:elif="{{msgType==='audio'}}">
+        <block wx:elif="{{msgType==='audio'||msgType==='groupAudio'}}">
             <view class="bubble-triangle-mine"></view>
             <view class="bubble-word bubble-word-mine" hover-class="bubble-hover" bind:tap="onClickAudio">
-                <text>录音长度：{{audioLength}}</text>
-                <view class="bubble-word-remark bubble-word-remark-mine">已读 {{msgTime}}</view>
+                <image src="../../images/icons/voice.png" class="bubble-voice"/>
+                <text>{{audioLength}}"</text>
+                <view class="bubble-word-remark bubble-word-remark-mine">{{msgStatus}} {{msgTime}}</view>
             </view>
         </block>
     </view>
@@ -36,25 +37,26 @@
     <view class="bubble bubble-others">
         <image class="bubble-avatar" src="{{avatarUrl}}"/>
 
-        <block wx:if="{{msgType==='text'}}">
+        <block wx:if="{{msgType==='text'||msgType==='groupText'}}">
             <view class="bubble-triangle-others"></view>
             <view class="bubble-word bubble-word-others" hover-class="bubble-hover">
                 <text selectable='true'>{{msgContent}}</text>
-                <view class="bubble-word-remark bubble-word-remark-others">已读 {{msgTime}}</view>
+                <view class="bubble-word-remark bubble-word-remark-others">{{msgTime}}</view>
             </view>
         </block>
-        <block wx:elif="{{msgType==='image'}}">
+        <block wx:elif="{{msgType==='image'||msgType==='groupImage'}}">
             <view class="bubble-triangle-others"></view>
             <view class="bubble-word bubble-word-others" hover-class="bubble-hover">
                 <image class="bubble-image" mode="widthFix" src="{{msgContent}}"/>
-                <view class="bubble-word-remark bubble-word-remark-others">已读 {{msgTime}}</view>
+                <view class="bubble-word-remark bubble-word-remark-others">{{msgTime}}</view>
             </view>
         </block>
-        <block wx:elif="{{msgType==='audio'}}">
+        <block wx:elif="{{msgType==='audio'||msgType==='groupAudio'}}">
             <view class="bubble-triangle-others"></view>
             <view class="bubble-word bubble-word-others" hover-class="bubble-hover" bind:tap="onClickAudio"  data-audio="{{msgContent}}">
-                <text>录音长度：{{audioLength}}</text>
-                <view class="bubble-word-remark bubble-word-remark-others">已读 {{msgTime}}</view>
+                <image src="../../images/icons/voice.png" class="bubble-voice"/>
+                <text>{{audioLength}}"</text>
+                <view class="bubble-word-remark bubble-word-remark-others">{{msgTime}}</view>
             </view>
         </block>
     </view>

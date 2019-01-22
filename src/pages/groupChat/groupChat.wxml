@@ -6,14 +6,15 @@
 -->
 
 <scroll-view scroll-y="{{true}}" style="height:{{windowHeight-50}}px; width:100%" >
-    <block wx:for="{{conversations[friendInfo.openId]}}" wx:key="{{item.uuid}}">
+    <block wx:for="{{conversations[groupId]}}" wx:key="{{item.uuid}}">
         <block wx:if="{{item.fromUser==openId}}">
             <bubble isMine="{{true}}" msgType="{{item.msgType}}" avatarUrl="{{userInfo.avatarUrl}}" nickName="{{userInfo.nickName}}"
-                        msgContent="{{item.msgContent}}" msgTime="{{item.msgTime}}" msgStatus="{{item.msgStatus}}"
+                        msgContent="{{item.msgContent }}" msgTime="{{item.msgTime}}" msgStatus="{{item.msgStatus}}"
                         audioLength="{{item.audioLength}}" bindClickAudio="onClickAudio" data-audio="{{item.msgContent}}"/>
+                        
         </block>
         <block wx:else>
-            <bubble isMine="{{false}}" msgType="{{item.msgType}}" avatarUrl="{{friendInfo.avatarUrl}}" nickName="{{friendInfo.nickName}}"
+            <bubble isMine="{{false}}" msgType="{{item.msgType}}" avatarUrl="{{allUsers[item.fromUser].avatarUrl}}" nickName="{{allUsers[item.fromUser].nickName}}"
                         msgContent="{{item.msgContent}}" msgTime="{{item.msgTime}}" msgStatus="{{item.msgStatus}}" 
                         audioLength="{{item.audioLength}}" bindClickAudio="onClickAudio" data-audio="{{item.msgContent}}"/>
         </block>

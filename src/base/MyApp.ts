@@ -27,6 +27,8 @@ export class MyApp extends MobxApp<MyStore> {
     newFriends: Url
     chat: Url
     publish: Url
+    tasks: Url
+    groupChat: Url
     /*# INJECT_END #*/
   }
 }

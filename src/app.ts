@@ -9,7 +9,10 @@ const wafer = require('wafer-client-sdk/index');
 @appify(new MyStore(), {pages: require('./app.cjson?pages'), tabBarList: require('./app.cjson?tabBar.list')})
 export default class extends MyApp {
   async onLaunch() {
-    
+    //var date=new Date()
+    console.log(new Date())
+    //console.log(new Date(date.getTime()))
+    //console.log(date.getFullYear(),date.getTime(),date.getDate(),date.getHours(),date.getMinutes())
     // 登录
     let {code} = await wxp.login()
     console.log('微信 code %o', code) // 发送 code 到后台换取 openId, sessionKey, unionId
@@ -36,21 +39,17 @@ export default class extends MyApp {
   config = {
     host: 'ttissoft.cn'
   }
-
-  async onhide(){
-    
-    
-  }
   
-  onShow(){
+  async onShow(){
     console.log("app show")
     if(this.store.needReconnect){
-      this.wsReconnect();
+      await this.wsReconnect();
     }
   }
   onHide(){
     console.log("app hide")
     this.store.socketOpen=false;
+    wxp.closeSocket();
     this.store.needReconnect=true;
 
     wxp.setStorageSync("conversations"+this.store.openId, this.store.conversations);

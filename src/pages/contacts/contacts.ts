@@ -9,6 +9,14 @@ export default class extends MyPage {
   }
 
   async onLoad(options: any) {
+    const grouptest={
+      openId:"group666666",
+      avatarUrl:"../../images/avatar/addFriends.png",
+      nickName:"群测试",
+      member:["oP7yP4gjNnPbPgtCKkZtq9qeErqI","oP7yP4remI5DCvlQgvFv9Lg4Iukg"]
+    }
+    this.store.contacts[grouptest.openId]=grouptest;
+    this.setDataSmart({contacts:this.store.contacts})
     //console.log(await wxp.getUserInfo())
     /*if(this.store.contacts=={} && this.store.userInfo){
       
@@ -21,13 +29,24 @@ export default class extends MyPage {
 
   onClickCard(e:any){
     const friendInfo=e.currentTarget.dataset.item;
-    wxp.navigateTo({
-      url:"../chat/chat?friendInfo="+JSON.stringify(friendInfo)
-    })
+    if(friendInfo.openId.slice(0,5)=="group"){
+      wxp.navigateTo({
+        url:"../groupChat/groupChat?friendInfo="+JSON.stringify(friendInfo)
+      })
+    }else{
+      wxp.navigateTo({
+        url:"../chat/chat?friendInfo="+JSON.stringify(friendInfo)
+      })
+    }
   }
   onClickNewFriends(){
     wxp.navigateTo({
       url:"../newFriends/newFriends"
+    })
+  }
+  onClickHistory(){
+    wxp.navigateTo({
+      url:"../conversations/conversations"
     })
   }
 }

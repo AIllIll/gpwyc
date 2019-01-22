@@ -9,7 +9,7 @@ wafer.setLoginUrl('https://ttissoft.cn/login');
 @pagify()
 export default class extends MyPage {
   data = {
-    searchResults:{}
+    allUsers:{}
   }
 
   async onLoad(options: any) {
@@ -21,9 +21,9 @@ export default class extends MyPage {
       success:(res:any)=>{
         //console.log("获取全用户列表成功",res)
         this.setDataSmart({
-          searchResults:res.data
+          allUsers:res.data
         })
-        this.store.contacts=res.data
+        //this.store.contacts=res.data
       },
       fail:(err:any)=>{
         console.log(err)

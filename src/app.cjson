@@ -19,6 +19,8 @@
     "pages/newFriends/newFriends",
     "pages/chat/chat",
     "pages/publish/publish",
+    "pages/tasks/tasks",
+    "pages/groupChat/groupChat",
     /*# INJECT_END #*/
   ],
   "window": {
@@ -37,14 +39,14 @@
       {
         "selectedIconPath": "images/tabbar/chatList.png",
         "iconPath": "images/tabbar/chatList.png",
-        "pagePath": "pages/conversations/conversations",
-        "text": "通讯"
+        "pagePath": "pages/tasks/tasks",
+        "text": "任务"
       },
       {
         "selectedIconPath": "images/tabbar/contacts.png",
         "iconPath": "images/tabbar/contacts.png",
         "pagePath": "pages/contacts/contacts",
-        "text": "联系人"
+        "text": "通讯"
       },
       {
         "selectedIconPath": "images/tabbar/broadcast.png",
