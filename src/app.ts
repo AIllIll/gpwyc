@@ -33,7 +33,8 @@ export default class extends MyApp {
     //窗口高度
     let systemInfo = await wxp.getSystemInfo()
     this.store.windowHeight = systemInfo.windowHeight;
-    console.log("窗口高度： ",this.store.windowHeight)
+    this.store.windowWidth = systemInfo.windowWidth;
+    console.log("窗口高度： ",this.store.windowHeight,"  窗口宽度： ",this.store.windowWidth)
   }
 
   config = {
@@ -54,7 +55,7 @@ export default class extends MyApp {
 
     wxp.setStorageSync("conversations"+this.store.openId, this.store.conversations);
     wxp.setStorageSync("contacts"+this.store.openId, this.store.contacts);
-    wxp.setStorageSync("notice"+this.store.openId, this.store.notice);
+    //wxp.setStorageSync("notice"+this.store.openId, this.store.notice);
   }
 
   //websocket函数

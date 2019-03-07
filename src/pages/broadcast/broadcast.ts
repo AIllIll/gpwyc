@@ -29,12 +29,12 @@ export default class extends MyPage {
 
 
     //创建callback，让receiver能进行页面渲染
-    const that=this;
+    /*const that=this;
     this.store.newsPageCallback=function(){
       that.setDataSmart({
         notice:this.notice
       })
-    }
+    }*/
   }
 
   

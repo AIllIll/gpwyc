@@ -2,6 +2,7 @@
 
 import {pagify, MyPage, wxp} from 'base/'
 
+const getUuid=require("uuid/v4")
 const wafer = require('wafer-client-sdk/index');
 wafer.setLoginUrl('https://ttissoft.cn/login');
 
@@ -160,11 +161,8 @@ export default class extends MyPage {
           this.store.groupChatPageCallback()
         }
       
-      }else if(signal.msgType=="notice"){
-        this.store.notice.unread[uuid]=signal;
-        if(this.store.newsPageCallback){
-          this.store.newsPageCallback()
-        }
+      }else if(signal.msgType=="order"){
+        this.orderHandler(signal.order)
 
       }else if(signal.msgType=="feedback"){
         console.log("feedback")
@@ -206,7 +204,73 @@ export default class extends MyPage {
   async getHistory(){
     this.store.conversations=wxp.getStorageSync("conversations"+this.store.openId)||{};
     this.store.contacts=wxp.getStorageSync("contacts"+this.store.openId)||{};
-    this.store.notice=wxp.getStorageSync("notice"+this.store.openId)||{unread:{},read:{},mine:{}};
+    //this.store.notice=wxp.getStorageSync("notice"+this.store.openId)||{unread:{},read:{},mine:{}};
   }
 
+  async getTasks(){
+    wafer.request({
+      login:true,
+      url:"https://"+this.store.config.host+"/getTasks",
+      method:"GET",
+      success:(res:any)=>{
+        this.store.myReceivedTasks=res.data.myReceivedTasks
+        //反馈 已收到
+        for(var i=0;i<res.data.myReceivedTasks.length;i++){
+          const task=res.data.myReceivedTasks[i]
+          const members=task.members;
+          for(var j=0;j<members.length;j++){
+            if(members[j].openId==this.store.openId&&members[j].status=="发送中"){
+              this.setTaskStatus(task.uuid,"已接收")
+              console.log("向任务"+task.title+"反馈了 已接收")
+              break;
+            }
+          }
+        }
+        console.log("myReceivedTasks",this.store.myReceivedTasks)
+        this.store.myReleasedTasks=res.data.myReleasedTasks
+        console.log("myReleasedTasks",this.store.myReleasedTasks)
+      },
+      fail:(err:any)=>{
+        console.log(err)
+      }
+    })
+  }
+
+  //发送任务反馈信号taskFeedback
+  setTaskStatus(taskId:string,status:string){
+    //信号生成
+    const date=new Date();
+    const msgTime=date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate()+' '+date.toTimeString().slice(0,8)
+     //const msgTime=date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate()+' '+date.getHours()+':'+date.getMinutes()+':'+date.getSeconds()
+    const uuid=getUuid();
+    console.log("uuid",uuid)
+    const newSignal={
+      uuid:uuid,
+      fromUser:this.store.openId,
+      toGroup:taskId,
+      msgType:"taskFeedback",
+      msgTime: msgTime,
+      msgContent:status
+    }
+    
+    //发送部分
+    if(this.store.socketOpen){
+      wxp.sendSocketMessage({
+        data: JSON.stringify(newSignal)
+      })
+    }
+    else{
+      console.log("socketOpen: ",this.store.socketOpen)
+    }
+  }
+
+  async orderHandler(order:any){
+    if(order.orderType=="newTask"||order.orderType=="updateTask")
+    this.getTasks()
+    if(this.store.newsPageCallback){
+      this.store.newsPageCallback()
+    }
+  }
+
+  
 }

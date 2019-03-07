@@ -5,6 +5,9 @@
   1. 如果没有语法高亮，且你使用的是 vscode 编辑器的话，建义在 vscode 插件库中安装 minapp-vscode 插件
 -->
 
-<block wx:for="{{allUsers}}" wx:key="{{index}}">
-    <cell nickName="{{item.nickName}}" avatarUrl="{{item.avatarUrl}}" full="{{true}}" motto="" extra="" data-item="{{item}}" bind:tap="onClickCell"/>
-</block>
+<view>{{task.uuid}}</view>
+<view>{{task.title}}</view>
+<view>{{task.content}}</view>
+<view>{{task.date}}</view>
+<view>{{task.location}}</view>
+<button bind:tap="onClickConfirm">确认</button>

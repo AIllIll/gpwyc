@@ -18,9 +18,11 @@
     "pages/broadcast/broadcast",
     "pages/newFriends/newFriends",
     "pages/chat/chat",
-    "pages/publish/publish",
-    "pages/tasks/tasks",
+    //"pages/publish/publish",
     "pages/groupChat/groupChat",
+    //"pages/testQRcode/testQRcode",
+    "pages/tasks/tasks",
+    "pages/taskDetails/taskDetails",
     /*# INJECT_END #*/
   ],
   "window": {
@@ -37,8 +39,8 @@
     "borderStyle": "black",
     "list": [
       {
-        "selectedIconPath": "images/tabbar/chatList.png",
-        "iconPath": "images/tabbar/chatList.png",
+        "selectedIconPath": "images/tabbar/task.png",
+        "iconPath": "images/tabbar/task.png",
         "pagePath": "pages/tasks/tasks",
         "text": "任务"
       },

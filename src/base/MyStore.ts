@@ -19,19 +19,17 @@ export class MyStore extends MobxStore {
   @observable openId: null|string=null
 
   @observable windowHeight: null|number=null
+  @observable windowWidth: null|number=null
   
   //历史记录
   @observable conversations: any={}
   
   @observable contacts: any={}
   
-  @observable allUsers: any={}
+  @observable allUsers: any=[]
 
-  @observable notice: any={
-    unread:{},
-    read:{},
-    mine:{}
-  }
+  @observable myReceivedTasks: any=[]
+  @observable myReleasedTasks: any=[]
   
   @observable config:any ={
     host:"ttissoft.cn"
