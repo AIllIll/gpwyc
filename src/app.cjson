@@ -20,7 +20,6 @@
     "pages/chat/chat",
     //"pages/publish/publish",
     "pages/groupChat/groupChat",
-    //"pages/testQRcode/testQRcode",
     "pages/tasks/tasks",
     "pages/taskDetails/taskDetails",
     /*# INJECT_END #*/

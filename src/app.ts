@@ -13,10 +13,10 @@ export default class extends MyApp {
     console.log(new Date())
     //console.log(new Date(date.getTime()))
     //console.log(date.getFullYear(),date.getTime(),date.getDate(),date.getHours(),date.getMinutes())
+
     // 登录
     let {code} = await wxp.login()
     console.log('微信 code %o', code) // 发送 code 到后台换取 openId, sessionKey, unionId
-
 
     // 获取用户信息
     let setting = await wxp.getSetting()
@@ -24,21 +24,22 @@ export default class extends MyApp {
       // 可以将 getUserInfo 返回的对象发送给后台解码出 unionId
       let res = await wxp.getUserInfo()
       console.log('微信 userInfo %o', res.userInfo)
-      this.store.userInfo = res.userInfo  // 将用户信息存入 store 中
+      this.store.userInfo = {
+        avatarUrl: res.userInfo.avatarUrl,
+        nickName: res.userInfo.nickName,
+        gender: res.userInfo.gender,
+        openId: null
+      }
+      // 将用户信息存入 store 中
     } else { 
       console.log('没有授权过')
     }
 
-    
-    //窗口高度
+    //窗口宽高
     let systemInfo = await wxp.getSystemInfo()
     this.store.windowHeight = systemInfo.windowHeight;
     this.store.windowWidth = systemInfo.windowWidth;
     console.log("窗口高度： ",this.store.windowHeight,"  窗口宽度： ",this.store.windowWidth)
-  }
-
-  config = {
-    host: 'ttissoft.cn'
   }
   
   async onShow(){
@@ -47,7 +48,7 @@ export default class extends MyApp {
       await this.wsReconnect();
     }
   }
-  onHide(){
+  async onHide(){
     console.log("app hide")
     this.store.socketOpen=false;
     wxp.closeSocket();
