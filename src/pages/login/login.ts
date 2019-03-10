@@ -2,103 +2,104 @@
 
 import {pagify, MyPage, wxp} from 'base/'
 
-const getUuid=require("uuid/v4")
-const wafer = require('wafer-client-sdk/index');
-wafer.setLoginUrl('https://ttissoft.cn/login');
+// const getUuid=require("uuid/v4")
+// const wafer = require('wafer-client-sdk/index');
+// wafer.setLoginUrl('https://ttissoft.cn/login');
 
 @pagify()
 export default class extends MyPage {
   data = {
-    isServerReady:false
+    // isServerReady:false
   }
-
+  
   async onLoad(options: any) {
-    //console.log(await wxp.getUserInfo())
-    await this.tryServer();
-  }
-
-  getUserInfo(e:any) {
-    console.log(e)
-    this.store.userInfo = e.detail.userInfo
-    this.setDataSmart({
-      userInfo: e.detail.userInfo
-    })
-  }
-
-  async tryServer(){
-    console.log(this.store.config.host)
-    await wx.request({
-      url:"https://"+this.store.config.host+"/hello",
-      method:"GET",
-      success:(res)=>{
-        if(res.statusCode==200){
-          this.setDataSmart({
-            isServerReady:true
-          })
-        }
-        else{
-          console.log(res)
-          wx.showToast({
-            title:"服务器故障",
-            icon:"none"
-          })
-        }
-      },
-      fail:(err)=>{
-        wx.showToast({
-          title:"请检查服务器",
-          icon:"none"
-        })
-      }
-    })
-  }
-
-  async wechatLogin(){
-    const that=this;
-    const store=this.store;
-    if(this.store.userInfo){
-      //先建立ws，并且保持心跳
-      this.store.Timer1=setInterval(this.heartbeat,50000)
-      //获取openId
-      await wafer.request({
-        login:true,
-        url:"https://"+this.store.config.host+"/me",
-        method:"GET",
-        success: async (res:any)=>{
-          console.log("获取会话成功",res)
-          store.openId=res.data.openId;
-          that.connect();
-          that.getHistory();
-          await wafer.request({
-            login:true,
-            url:"https://"+this.store.config.host+"/users",
-            method:"GET",
-            success:(res:any)=>{
-              //console.log("获取全用户列表成功",res)
-              this.store.allUsers=res.data
-              console.log("allUsers",this.store.allUsers)
-              wxp.switchTab({
-                url:"../contacts/contacts"
-              })
-            },
-            fail:(err:any)=>{
-              console.log(err)
-            }
-          })
+    console.log('login onLoad')
+    // 登录
+    let {code} = await wxp.login()
+    console.log('微信 code %o', code) // 发送 code 到后台换取 openId, sessionKey, unionId
+    await new Promise((resolve,reject)=>{
+      wx.request({
+        url: this.store.config.host+"/user/getOpenId",
+        method: "GET",
+        data:{
+          code: code,
         },
-        fail:(err:any)=>{
-          console.log(err)
+        success: res=>{
+          console.log(res.data);
+          if(res.data.status==='success'){
+            this.store.openId = res.data.openId;
+            resolve()
+          }
+          reject()
         }
       })
-      
+    })
+  }
+  
+  async wechatLogin(){
+    // 用户登录，更新信息
+    await new Promise((resolve,reject)=>{
+      wx.request({
+        url: this.store.config.host+"/user/login",
+        method: "GET",
+        data:{
+          openId: this.store.openId,
+          userInfo: this.store.userInfo
+        },
+        success: res=>{
+          console.log("登录", res.data);
+          resolve()
+        }
+      })
+    })
+    await this.webSocketConnect();
+  }
+  //连接
+  async webSocketConnect(){ 
+    if(this.store.socketOpen){
+      console.log("ws已开启,不要重复连接")
     }else{
-      wxp.showToast({
-        title:"请先获取微信授权",
-        icon:"none"
+      const ws1 = wx.connectSocket({
+        // 小程序 wx.connectSocket() API header 参数无效，把会话信息附加在 URL 上
+        url: `${this.store.config.host_wss}/ws`,
+        header: {openId: this.store.openId}//似乎header只能小写，不知道是minapp的问题还是thinkjs，服务器收到的是openid
+      });
+      const that = this
+      ws1.onOpen(function() {
+        console.log('WebSocket连接已打开！')
+        that.store.socketOpen=true;
+      })
+      ws1.onMessage(function(res) {
+        console.log('WebSocket连接收到', res)
+        const message = JSON.parse(String(res.data));
+        console.log(message)
+        that.store.wsMessageHandler(message);
+        //wsMessageHandler();
+      })
+      ws1.onClose(function() {
+        console.log('WebSocket连接已关闭！')
+        that.store.socketOpen=false;
       })
     }
   }
 
+  async getUserInfo(){
+    let setting = await wxp.getSetting()
+    if (setting.authSetting['scope.userInfo']) { // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
+      // 可以将 getUserInfo 返回的对象发送给后台解码出 unionId（暂时不需要）
+      let res = await wxp.getUserInfo()
+      console.log('微信 userInfo %o', res.userInfo)
+      this.store.userInfo = {
+        avatarUrl: res.userInfo.avatarUrl,
+        nickName: res.userInfo.nickName,
+        gender: res.userInfo.gender
+      }
+      // 将用户信息存入 store 中
+    } else { 
+      console.log('没有授权过')
+    }
+  }
+  /*
   //websocket函数
   async connect(){
     this.listen();
@@ -190,7 +191,7 @@ export default class extends MyPage {
       console.error('WebSocket 错误');
     });
   }
-
+  
   heartbeat(){
     console.log("heartbeating")
     const heartbeatSignal={
@@ -199,7 +200,7 @@ export default class extends MyPage {
     }
     wxp.sendSocketMessage({data:JSON.stringify(heartbeatSignal)})
   }
-
+  
   //历史记录函数
   async getHistory(){
     this.store.conversations=wxp.getStorageSync("conversations"+this.store.openId)||{};
@@ -272,5 +273,5 @@ export default class extends MyPage {
     }
   }
 
-  
+  */
 }

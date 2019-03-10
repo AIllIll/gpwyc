@@ -41,13 +41,13 @@
         "selectedIconPath": "images/tabbar/task.png",
         "iconPath": "images/tabbar/task.png",
         "pagePath": "pages/tasks/tasks",
-        "text": "任务"
+        "text": "人"
       },
       {
         "selectedIconPath": "images/tabbar/contacts.png",
         "iconPath": "images/tabbar/contacts.png",
         "pagePath": "pages/contacts/contacts",
-        "text": "通讯"
+        "text": "物"
       },
       {
         "selectedIconPath": "images/tabbar/broadcast.png",

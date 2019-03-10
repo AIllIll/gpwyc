@@ -21,7 +21,8 @@
     "tslib": "^1.9.0",
     "uuid": "^3.3.2",
     "wafer-client-sdk": "^0.8.4",
-    "wafer2-client-sdk": "^2.1.0"
+    "wafer2-client-sdk": "^2.1.0",
+    "wx-server-sdk": "^0.1.4"
   },
   "devDependencies": {
     "@types/node": "^8.0.0",

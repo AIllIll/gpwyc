@@ -4,7 +4,7 @@
   注意：
   1. 如果没有语法高亮，且你使用的是 vscode 编辑器的话，建义在 vscode 插件库中安装 minapp-vscode 插件
 -->
-<view class='tagsBar'>
+<!--view class='tagsBar'>
     <block wx:for='{{tags}}' wx:key='{{index}}' >
         <view class='{{tagSelected==index?"tagsBar-tags-selected":"tagsBar-tags"}}' bindtap='onClickTag'data-index='{{index}}' >{{tags[index]}}</view> 
     </block>
@@ -14,4 +14,10 @@
 </view>
 <view hidden="{{tagSelected==0}}" wx:for="{{myReceivedTasks}}" wx:key="{{index}}">
     <cell nickName="{{item.title}}" avatarUrl="../../images/avatar/tasksheet.png" full="{{true}}" motto="" extra="" data-item="{{item}}" bind:tap="onClickCell"/>
-</view>
+</view-->
+<i-icon type="add" size="40" color="#80848f" bind:tap="onClickAdd"></i-icon>
+<i-drawer mode="right" visible="{{showDrawer}}" bind:close="toggleDrawer">
+    <view class="drawer-container" >
+        666
+    </view>
+</i-drawer>

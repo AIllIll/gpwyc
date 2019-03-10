@@ -10,6 +10,7 @@ export default class extends MyPage {
   data = {
     tags: ["发起的任务", "收到的任务"],
     tagSelected: '0',//0or1 tags的下标
+    showDrawer: false,
   }
 
   async onLoad(options: any) {
@@ -34,31 +35,13 @@ export default class extends MyPage {
   }
 
   async getTasks(){
-    wafer.request({
-      login:true,
-      url:"https://"+this.store.config.host+"/getTasks",
-      method:"GET",
-      success:(res:any)=>{
-        this.store.myReceivedTasks=res.data.myReceivedTasks
-        //反馈 已收到
-        for(var i=0;i<res.data.myReceivedTasks.length;i++){
-          const task=res.data.myReceivedTasks[i]
-          const members=task.members;
-          for(var j=0;j<members.length;j++){
-            if(members[j].openId==this.store.openId&&members[j].status=="发送中"){
-              this.setTaskStatus(task.uuid,"已接收")
-              console.log("向任务"+task.title+"反馈了 已接收")
-              break;
-            }
-          }
-        }
-        //已获得反馈
-        console.log("myReceivedTasks",this.store.myReceivedTasks)
-        this.store.myReleasedTasks=res.data.myReleasedTasks
-        console.log("myReleasedTasks",this.store.myReleasedTasks)
-      },
-      fail:(err:any)=>{
-        console.log(err)
+    wx.request({
+      url: this.store.config.host+"/task/get",
+      method: "GET",
+      success: (res:any) => {
+        console.log("getTasks", res.data)
+        this.store.myReceivedTasks=res.data.data.received
+        this.store.myReleasedTasks=res.data.data.released
       }
     })
   }
@@ -89,4 +72,15 @@ export default class extends MyPage {
       console.log("socketOpen: ",this.store.socketOpen)
     }
   }
+
+  onClickAdd(){
+    console.log("add")
+    this.toggleDrawer();
+  }
+
+  toggleDrawer() {
+    this.setDataSmart({
+      showDrawer: !this.data.showDrawer
+    });
+}
 }

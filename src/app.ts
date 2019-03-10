@@ -4,7 +4,7 @@ Author Mora <qiuzhongleiabc@126.com> (https://github.com/qiu8310)
 *******************************************************************/
 
 import {appify, wxp, MyApp, MyStore} from 'base/'
-const wafer = require('wafer-client-sdk/index');
+//const wafer = require('wafer-client-sdk/index');
 
 @appify(new MyStore(), {pages: require('./app.cjson?pages'), tabBarList: require('./app.cjson?tabBar.list')})
 export default class extends MyApp {
@@ -14,34 +14,44 @@ export default class extends MyApp {
     //console.log(new Date(date.getTime()))
     //console.log(date.getFullYear(),date.getTime(),date.getDate(),date.getHours(),date.getMinutes())
 
-    // 登录
-    let {code} = await wxp.login()
-    console.log('微信 code %o', code) // 发送 code 到后台换取 openId, sessionKey, unionId
-
-    // 获取用户信息
+    // 先获取用户信息
     let setting = await wxp.getSetting()
     if (setting.authSetting['scope.userInfo']) { // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
-      // 可以将 getUserInfo 返回的对象发送给后台解码出 unionId
+      // 可以将 getUserInfo 返回的对象发送给后台解码出 unionId（暂时不需要）
       let res = await wxp.getUserInfo()
       console.log('微信 userInfo %o', res.userInfo)
       this.store.userInfo = {
         avatarUrl: res.userInfo.avatarUrl,
         nickName: res.userInfo.nickName,
-        gender: res.userInfo.gender,
-        openId: null
+        gender: res.userInfo.gender
       }
       // 将用户信息存入 store 中
     } else { 
       console.log('没有授权过')
     }
-
     //窗口宽高
-    let systemInfo = await wxp.getSystemInfo()
-    this.store.windowHeight = systemInfo.windowHeight;
-    this.store.windowWidth = systemInfo.windowWidth;
+    const that=this;
+    await new Promise((resolve,reject)=>{
+      wxp.getSystemInfo({
+        success: function(res:any){
+          that.store.windowHeight = res.windowHeight;
+          that.store.windowWidth = res.windowWidth;
+          resolve({windowHeight:res.windowHeight,windowWidth:res.windowWidth});
+        }
+      })
+    })
     console.log("窗口高度： ",this.store.windowHeight,"  窗口宽度： ",this.store.windowWidth)
+
+
+    that.store.wsMessageHandler=function(message:any){
+      if(message.event==="opend"){
+        wx.switchTab({
+          url:'../tasks/tasks'
+        })
+      }
+    }
   }
-  
+  /*
   async onShow(){
     console.log("app show")
     if(this.store.needReconnect){
@@ -81,6 +91,6 @@ export default class extends MyApp {
       }
     });
   }
-  
+  */
 }
 

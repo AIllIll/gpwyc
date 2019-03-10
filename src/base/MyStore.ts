@@ -14,7 +14,7 @@ export class MyStore extends MobxStore {
    *
    *  另外，函数相关的 ts 定义都存储在 wx.[同名函数] 的 namespace 中，如下面的 ParamPropSuccessParamPropUserInfo
    */
-  @observable userInfo: any={}
+  @observable userInfo: any=null
 
   @observable openId: null|string=null
 
@@ -32,7 +32,11 @@ export class MyStore extends MobxStore {
   @observable myReleasedTasks: any=[]
   
   @observable config:any ={
-    host:"ttissoft.cn"
+
+    host:"http://192.168.1.109:8360",
+    host_wss: "ws://192.168.1.109:8360"
+    // host:"http://172.16.1.35:8360",
+    // host_wss:"ws://172.16.1.35:8360"
   }
 
   @observable socketOpen:boolean=false
@@ -45,6 +49,8 @@ export class MyStore extends MobxStore {
   chatPageCallback:any=null;
   groupChatPageCallback:any=null;
   newsPageCallback:any=null;
+  
+  wsMessageHandler:any=null;
 
 
 }

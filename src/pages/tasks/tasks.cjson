@@ -10,6 +10,9 @@
   "$schema": "https://raw.githubusercontent.com/qiu8310/minapp/master/schema/page.json",
   "usingComponents": {
     "cell":"components/cell/cell",
+    "i-button":"components/i-View/button/index",
+    "i-icon":"components/i-View/icon/index",
+    "i-drawer":"components/i-View/drawer/index",
     "tagbar":"../../base/components/tagbar/index",
     "tag":"../../base/components/tag/index",
   }
