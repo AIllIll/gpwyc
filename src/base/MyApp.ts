@@ -31,6 +31,7 @@ export class MyApp extends MobxApp<MyStore> {
     groupChat: Url
     testQRcode: Url
     taskDetails: Url
+    tasksCreate: Url
     /*# INJECT_END #*/
   }
 }

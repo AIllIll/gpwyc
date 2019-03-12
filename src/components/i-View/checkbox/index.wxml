@@ -2,7 +2,10 @@
     <i-cell i-class="i-checkbox-cell">
         <label>
             <radio value="{{value}}" checked="{{checked}}" color="{{checked?color:''}}" disabled="{{disabled}}" class="i-checkbox-radio {{positionCls}}" />
-            <view class="i-checkbox-title">{{value}}</view>
+            <image class="i-checkbox-image" src="{{picture}}" />
+            <view class="i-checkbox-title">
+                <view >{{description}}</view>
+            </view>
         </label>
     </i-cell>
 </view>

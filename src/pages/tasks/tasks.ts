@@ -2,9 +2,7 @@
 
 import {pagify, MyPage, wxp} from 'base/'
 
-const getUuid=require("uuid/v4")
-const wafer = require('wafer-client-sdk/index');
-wafer.setLoginUrl('https://ttissoft.cn/login');
+//const getUuid=require("uuid/v4")
 @pagify()
 export default class extends MyPage {
   data = {
@@ -18,34 +16,33 @@ export default class extends MyPage {
   }
 
   async onShow(){
-    await this.getTasks(); 
+    await this.getTasks();
   }
 
-  onClickCell(e:any){
-    //console.log(e.currentTarget.dataset.item)
-    const task=e.currentTarget.dataset.item;
-    wxp.navigateTo({
-      url:"../taskDetails/taskDetails?task="+JSON.stringify(task)
-    })
-  }
-  onClickTag(e:any) {
-    this.setDataSmart({
-      tagSelected: e.currentTarget.dataset.index
-    })
-  }
+  
 
+  // 网络函数
   async getTasks(){
-    wx.request({
-      url: this.store.config.host+"/task/get",
-      method: "GET",
-      success: (res:any) => {
-        console.log("getTasks", res.data)
-        this.store.myReceivedTasks=res.data.data.received
-        this.store.myReleasedTasks=res.data.data.released
-      }
+    return await new Promise((resolve)=>{
+      wx.request({
+        url: this.store.config.host+"/task/get",
+        method: "GET",
+        data: {
+          openId:this.store.openId
+        },
+        success: (res:any) => {
+          console.log("getTasks", res.data.data)
+          if(res.data.status==="success"){
+            this.store.myReceivedTasks=res.data.data.received
+            this.store.myReleasedTasks=res.data.data.released
+            resolve()
+          }
+        }
+      })
     })
   }
 
+/*
   setTaskStatus(taskId:string,status:string){
     //信号生成
     const date=new Date();
@@ -72,9 +69,9 @@ export default class extends MyPage {
       console.log("socketOpen: ",this.store.socketOpen)
     }
   }
-
+*/
+  // 组件函数
   onClickAdd(){
-    console.log("add")
     this.toggleDrawer();
   }
 
@@ -82,5 +79,32 @@ export default class extends MyPage {
     this.setDataSmart({
       showDrawer: !this.data.showDrawer
     });
-}
+  }
+
+  onClickCell(e:any){
+    console.log(e.currentTarget.dataset.item)
+    const taskId=e.currentTarget.dataset.item._id;
+    wxp.navigateTo({
+      url:"../taskDetails/taskDetails?taskId="+taskId
+    })
+  }
+  async onClickTag(e:any) {
+    // await this.getTasks();
+    this.setDataSmart({
+      tagSelected: e.currentTarget.dataset.index
+    })
+  }
+
+  async onNoticeClose(e:any){
+    console.log("关闭通知", e)
+  }
+
+  toTaskCreate() {
+    this.setDataSmart({
+      showDrawer: false
+    });
+    wx.navigateTo({
+      url:'../tasksCreate/tasksCreate'
+    })
+  }
 }

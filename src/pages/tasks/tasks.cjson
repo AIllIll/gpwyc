@@ -13,6 +13,7 @@
     "i-button":"components/i-View/button/index",
     "i-icon":"components/i-View/icon/index",
     "i-drawer":"components/i-View/drawer/index",
+    "i-notice-bar":"components/i-View/notice-bar/index",
     "tagbar":"../../base/components/tagbar/index",
     "tag":"../../base/components/tag/index",
   }

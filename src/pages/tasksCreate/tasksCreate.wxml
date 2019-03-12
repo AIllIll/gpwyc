@@ -1,0 +1,45 @@
+<!--
+  此文件是由模板文件 ".dtpl/page/$rawModuleName.wxml.dtpl" 生成的，你可以自行修改模板
+
+  注意：
+  1. 如果没有语法高亮，且你使用的是 vscode 编辑器的话，建义在 vscode 插件库中安装 minapp-vscode 插件
+-->
+    
+
+<i-panel title="任务信息">
+    <i-input value="{{ title }}" title="标题" autofocus placeholder="请输入标题" bind:change="bindTitleChange" />
+    <!--i-input value="{{ value2 }}" title="地点" placeholder="请输入地点" /-->
+    <!--picker mode="time" value="{{time}}" start="09:01" end="21:01" bindchange="bindTimeChange">
+      <panel class="picker">时间: {{time}} </panel>
+    </picker>
+    <picker mode="date" value="{{date}}" start="2015-09-01" end="2017-09-01" bindchange="bindDateChange" >
+      <view class="picker"> 日期: {{date}} </view>
+    </picker-->
+    <i-input value="{{ detail }}" type="textarea" title="详细内容" placeholder="请输入详细内容(最多500字)" maxlength="500" style="height:300px;" bind:change="bindDetailChange"/>
+</i-panel>
+<i-panel title="成员选择">
+    <i-checkbox-group current="{{subordinate}}" bindchange="handleSubordinateChange">
+        <i-checkbox wx:for="{{userList}}" position="right" wx:key="{{item.openId}}" value="{{item.openId}}" picture="{{item.userInfo.avatarUrl}}" description="{{item.userInfo.nickName}}">
+        </i-checkbox>
+    </i-checkbox-group>
+</i-panel>
+
+<i-button type="primary" bind:tap="onClickConfirm">确认</i-button>
+
+
+
+<!--i-panel title="任务信息">
+    <i-input value="{{ value1 }}" title="标题" autofocus placeholder="请输入任务标题" />
+    <i-input value="{{ value2 }}" type="number" title="联系电话" placeholder="请输入手机号" />
+    <i-input value="{{ value3 }}" type="textarea" title="详细地址" placeholder="请输入详细地址(最多50字)" maxlength="50" />
+    <i-input value="{{ value4 }}" title="用户信息" disabled />
+</i-panel>
+
+<i-panel title="无标题输入框">
+    <i-input value="{{ value5 }}" placeholder="请输入收货人姓名" />
+</i-panel>
+
+<i-panel title="圆角输入框">
+    <i-input value="{{ value6 }}" type="number" right title="消费总额" mode="wrapped" placeholder="询问收银员后输入" />
+    <i-input value="{{ value7 }}" type="number" right error title="不参与优惠金额" mode="wrapped" placeholder="询问收银员后输入" />
+</i-panel-->

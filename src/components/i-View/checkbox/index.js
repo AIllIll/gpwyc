@@ -12,6 +12,14 @@ Component({
             type: String,
             value: ''
         },
+        picture: {
+            type: String,
+            value: ''
+        },
+        description: {
+            type: String,
+            value: ''
+        },
         checked: {
             type: Boolean,
             value: false

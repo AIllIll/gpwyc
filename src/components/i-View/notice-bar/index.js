@@ -101,12 +101,13 @@ Component({
                 clearTimeout(this.data.timer);
             }
         },
-        handleClose() {
+        handleClose(event) {
             this.destroyTimer();
             this.setData({
                 show: false,
                 timer: null
             });
+            this.triggerEvent('close', event);
         }
     }
 });

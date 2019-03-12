@@ -12,4 +12,55 @@ export default class extends MyPage {
     console.log(await wxp.getUserInfo())
   }
   
+  async deleteUser(){
+    return await new Promise((resolve, reject) => {
+      wx.request({
+        url:this.store.config.host+"/user/clear",
+        data:{
+          openId: this.store.openId,
+        },
+        success: res=>{
+          console.log(res.data.status)
+          if(res.data.status==="success"){
+            wx.showToast({
+              title:'删除成功'
+            })
+            resolve();
+          }else{
+            wx.showToast({
+              title:'想死？',
+              icon:"none"
+            })
+            reject();
+          }
+        }
+      })
+    })
+  }
+
+  async deleteTask(){
+    return await new Promise((resolve, reject) => {
+      wx.request({
+        url:this.store.config.host+"/task/clear",
+        data:{
+          openId: this.store.openId,
+        },
+        success: res=>{
+          console.log(res.data.status)
+          if(res.data.status==="success"){
+            wx.showToast({
+              title:'删除成功'
+            })
+            resolve();
+          }else{
+            wx.showToast({
+              title:'想死？',
+              icon:"none"
+            })
+            reject();
+          }
+        }
+      })
+    })
+  }
 }

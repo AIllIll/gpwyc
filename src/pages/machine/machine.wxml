@@ -10,3 +10,5 @@
 <image style="height:60px;width:60px;" wx:else src="{{userInfo.avatarUrl}}" />
 <image style="height:60px;width:60px;"  src="https://ttissoft.cn/testQR" />
 -->
+<button type="warn" bind:tap="deleteUser">删除user表</button>
+<button type="warn" bind:tap="deleteTask">删除task表</button>

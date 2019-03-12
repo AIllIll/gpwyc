@@ -33,8 +33,10 @@ export class MyStore extends MobxStore {
   
   @observable config:any ={
 
-    host:"http://192.168.1.109:8360",
-    host_wss: "ws://192.168.1.109:8360"
+    host:"http://10.161.203.130:8360",
+    host_wss:"ws://10.161.203.130:8360",
+    // host:"http://192.168.1.109:8360",
+    // host_wss: "ws://192.168.1.109:8360"
     // host:"http://172.16.1.35:8360",
     // host_wss:"ws://172.16.1.35:8360"
   }
@@ -51,6 +53,9 @@ export class MyStore extends MobxStore {
   newsPageCallback:any=null;
   
   wsMessageHandler:any=null;
+
+  
+  @observable noticeList:any=null
 
 
 }

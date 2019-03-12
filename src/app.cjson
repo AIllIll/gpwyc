@@ -22,6 +22,7 @@
     "pages/groupChat/groupChat",
     "pages/tasks/tasks",
     "pages/taskDetails/taskDetails",
+    "pages/tasksCreate/tasksCreate",
     /*# INJECT_END #*/
   ],
   "window": {

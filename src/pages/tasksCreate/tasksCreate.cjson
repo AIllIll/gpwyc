@@ -9,7 +9,11 @@
 {
   "$schema": "https://raw.githubusercontent.com/qiu8310/minapp/master/schema/page.json",
   "usingComponents": {
-    "i-card":"components/i-View/card/index",
     "i-button":"components/i-View/button/index",
+    "i-icon":"components/i-View/icon/index",
+    "i-panel":"components/i-View/panel/index",
+    "i-input":"components/i-View/input/index",
+    "i-checkbox-group":"components/i-View/checkbox-group/index",
+    "i-checkbox":"components/i-View/checkbox/index",
   }
 }

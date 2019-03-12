@@ -14,29 +14,12 @@ export default class extends MyPage {
   
   async onLoad(options: any) {
     console.log('login onLoad')
-    // 登录
-    let {code} = await wxp.login()
-    console.log('微信 code %o', code) // 发送 code 到后台换取 openId, sessionKey, unionId
-    await new Promise((resolve,reject)=>{
-      wx.request({
-        url: this.store.config.host+"/user/getOpenId",
-        method: "GET",
-        data:{
-          code: code,
-        },
-        success: res=>{
-          console.log(res.data);
-          if(res.data.status==='success'){
-            this.store.openId = res.data.openId;
-            resolve()
-          }
-          reject()
-        }
-      })
-    })
   }
   
+  // 点击微信快捷登录
   async wechatLogin(){
+    // 登录
+    await this.getOpenId();
     // 用户登录，更新信息
     await new Promise((resolve,reject)=>{
       wx.request({
@@ -98,6 +81,28 @@ export default class extends MyPage {
     } else { 
       console.log('没有授权过')
     }
+  }
+
+  async getOpenId(){
+    let {code} = await wxp.login()
+    console.log('微信 code %o', code) // 发送 code 到后台换取 openId, sessionKey, unionId
+    return await new Promise((resolve,reject)=>{
+      wx.request({
+        url: this.store.config.host+"/user/getOpenId",
+        method: "GET",
+        data:{
+          code: code,
+        },
+        success: res=>{
+          console.log(res.data);
+          if(res.data.status==='success'){
+            this.store.openId = res.data.openId;
+            resolve()
+          }
+          reject()
+        }
+      })
+    })
   }
   /*
   //websocket函数
