@@ -12,3 +12,15 @@
 -->
 <button type="warn" bind:tap="deleteUser">删除user表</button>
 <button type="warn" bind:tap="deleteTask">删除task表</button>
+<button type="warn" bind:tap="deleteNotice">删除notice表</button>
+
+<button type="primary" bind:tap="test">发送</button>
+
+<button type="primary" bind:tap="connectSocket1">新建socket</button>
+<button type="primary" bind:tap="connectSocket2">新建socket2</button>
+<button type="primary" bind:tap="closeSocket1">断开socket1</button>
+<button type="primary" bind:tap="test2">2发送到1</button>
+
+<button type="primary" bind:tap="test3">notice测试</button>
+
+

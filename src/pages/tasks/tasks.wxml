@@ -5,9 +5,9 @@
   1. 如果没有语法高亮，且你使用的是 vscode 编辑器的话，建义在 vscode 插件库中安装 minapp-vscode 插件
 -->
 
-<block wx:for="{{myReceivedTasks}}" wx:key="{{item.taskId}}">
-    <i-notice-bar icon="systemprompt" closable bind:close="onNoticeClose">
-        {{item.taskInfo.title}}
+<block wx:for="{{noticeList}}" wx:key="{{item._id}}">
+    <i-notice-bar icon="systemprompt" item="{{item}}" bind:close="onNoticeClose" bind:click="onNoticeTap">
+        {{item.title}}
     </i-notice-bar>
 </block>
 
@@ -25,6 +25,7 @@
 </view>
 
 <i-icon class="floatBtn" type="add" size="40" color="#80848f" bind:tap="onClickAdd"></i-icon>
+<!--i-icon class="floatBtn2" type="feedback" size="40" color="#80848f" bind:tap="onClickFeedback"></i-icon-->
 
 <i-drawer mode="right" visible="{{showDrawer}}" bind:close="toggleDrawer">
     <view class="drawer-container" >

@@ -38,7 +38,7 @@ export default class extends MyPage {
     })
   }
   async addTask(task:any){
-    return await new Promise((resolve,reject)=>{
+    return await new Promise<String>((resolve,reject)=>{
       wx.request({
         url: this.store.config.host+"/task/add",
         method: "POST",
@@ -48,7 +48,26 @@ export default class extends MyPage {
         success:res=>{
           if(res.data.status==="success"){
             console.log(res.data.data.taskId)
-            resolve(res.data.data)
+            resolve(res.data.data.taskId)
+          }else{
+            reject()
+          }
+        }
+      })
+    }) 
+  }
+  async addNotice(notice:Object){
+    return await new Promise((resolve,reject)=>{
+      wx.request({
+        url: this.store.config.host+"/notice/add",
+        method: "POST",
+        data: {
+          notice: notice
+        },
+        success:res=>{
+          if(res.data.status==="success"){
+            console.log('添加notice成功',res.data.data.noticeId)
+            resolve(res.data.data.noticeId)
           }else{
             reject()
           }
@@ -91,7 +110,7 @@ export default class extends MyPage {
       subordinate: this.data.subordinate
     });
   }
-  onClickConfirm(){
+  async onClickConfirm(){
     if(this.data.subordinate.length==0){
       wx.showToast({
         title:'请至少选择一个成员',
@@ -99,15 +118,40 @@ export default class extends MyPage {
       })
     }else{
       const openId = this.store.openId;
+      let subordinate: any[] = [];
+      this.data.subordinate.forEach(element=>{
+        const newEle = {openId:element, status: 0}
+        subordinate.push(newEle)
+      })
+      console.log('subordinate', subordinate);
       const task = {
         leader: openId,
-        subordinate: this.data.subordinate,
+        subordinate: subordinate,
         title: this.data.title,
-        detail: this.data.detail
+        detail: this.data.detail,
       }
-      this.addTask(task).then(res=>{
-        wx.navigateBack({delta:1});
-      });
+      const taskId = await this.addTask(task)
+      const ws1 = this.store.ws1
+      for(var i in subordinate){
+        let element = subordinate[i];
+        const header = {
+          fromId: this.store.openId,
+          toId: element.openId
+        }
+        const notice = {
+          ...header,
+          title: '您有新任务：'+task.title,
+          command: {
+            goToTask: taskId
+          }
+        }
+        await this.addNotice(notice)
+        const signal = {
+          ...header
+        }
+        ws1.send({data:JSON.stringify({event:"notice", data: signal })})
+      }
+      wx.navigateBack({delta:1});
     }
   }
 }

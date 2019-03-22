@@ -42,25 +42,25 @@
         "selectedIconPath": "images/tabbar/task.png",
         "iconPath": "images/tabbar/task.png",
         "pagePath": "pages/tasks/tasks",
-        "text": "人"
+        "text": "任务"
       },
       {
         "selectedIconPath": "images/tabbar/contacts.png",
         "iconPath": "images/tabbar/contacts.png",
         "pagePath": "pages/contacts/contacts",
-        "text": "物"
+        "text": "群聊"
       },
       {
         "selectedIconPath": "images/tabbar/broadcast.png",
         "iconPath": "images/tabbar/broadcast.png",
         "pagePath": "pages/broadcast/broadcast",
-        "text": "广播"
+        "text": "新闻"
       },
       {
         "selectedIconPath": "images/tabbar/machine.png",
         "iconPath": "images/tabbar/machine.png",
         "pagePath": "pages/machine/machine",
-        "text": "对讲机"
+        "text": "设置"
       }
     ]
   }

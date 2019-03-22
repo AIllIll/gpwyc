@@ -31,7 +31,7 @@ export default class extends MyPage {
           openId:this.store.openId
         },
         success: (res:any) => {
-          console.log("getTasks", res.data.data)
+          console.log("getTasks获得任务列表", res.data.data)
           if(res.data.status==="success"){
             this.store.myReceivedTasks=res.data.data.received
             this.store.myReleasedTasks=res.data.data.released
@@ -73,7 +73,11 @@ export default class extends MyPage {
   // 组件函数
   onClickAdd(){
     this.toggleDrawer();
+    // this.toTaskCreate();
   }
+  /*onClickFeedback(){
+    this.store.getNoticeList()
+  }*/
 
   toggleDrawer() {
     this.setDataSmart({
@@ -97,6 +101,10 @@ export default class extends MyPage {
 
   async onNoticeClose(e:any){
     console.log("关闭通知", e)
+  }
+  async onNoticeTap(e:any){
+    console.log("点击通知", e.detail)
+    this.store.onNoticeTap(e.detail)
   }
 
   toTaskCreate() {

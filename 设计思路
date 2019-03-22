@@ -1,0 +1,30 @@
+app
+    从微信获取code，提交的backend完成openId的获取
+    获取窗口高度
+    定义各种全局函数
+login
+    点击登录按钮提交openId到backend完成登录操作并同时更新用户信息，同时第一次打开websocket
+
+tasks
+    onshow刷新task列表
+taskCreate
+    onload获取用户列表，用于渲染
+    点击确认提交新task，response返回正确后视为完成提交；
+    完成提交之后，发送广播
+    返回tasks，触发onshow刷新task列表
+taskDetail
+    onload获取用户列表，用于渲染
+    onload获取任务的具体信息，包括(自己对应的step)
+    如果step是刚下发(0)，则提交update，后端将task.subordinate里的元素遍历一遍，找到自己对应的元素element，将element.step置为已读(1)，过程中要加入loading等待网络返回结果
+    // 返回成功之后要发websocket给服务器，转发给对应用户，通知更新
+    如果step是已读(1)，则开放确认按钮，点击之后，提交，后端将step置为确认(2)，过程中要加入loading等待网络返回结果
+    // 返回成功之后要发websocket给服务器，转发给对应用户，通知更新
+    ###### 这里有一个隐患是，subordinate是[]，不像属性可以精确修改（属性应该可以吧？），只能整体修改，害怕两个人同时操作，不知道会不会有问题
+
+notice
+    // 通知设置在多个页面，用相同的全局变量控制，通过handler筛选，
+
+websocket
+    由于thinkjs框架下，websocket没有办法在http请求下调用，所以websocket完全沦为指令工具，通知终端执行操作（还是可以做短消息的转发的，）
+    由于thinkjs框架没有ws的错误处理，websocket只对在线用户有效，因此所有通过ws指令传达的操作，在离线用户登录的时候都需要做一遍，否则，将无法正常服务离线用户
+

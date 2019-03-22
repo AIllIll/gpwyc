@@ -9,4 +9,43 @@
     <view slot="footer" style="margin-bottom:3px;">{{task.taskInfo.detail}}</view>
     <view slot="footer" style="margin-bottom:3px;">{{task.taskInfo.detail}}</view>
 </i-card>
-<i-button bind:tap="onClickConfirm" type="primary">确认</i-button>
+<block wx:if="{{isLeader}}">
+  <block wx:for="{{subordinate}}" wx:key="{{item.openId}}">
+    <i-card title="{{item.userInfo.nickName}}" extra="{{item.userInfo.nickName}}" thumb="{{item.userInfo.avatarUrl}}">
+      <view slot="content">
+        <i-steps current="{{item.status}}"> 
+          <i-step>
+              <view slot="title">
+                  未读
+              </view>
+              <!--view slot="content">
+                  这里是该步骤的描述信息
+              </view-->
+          </i-step>
+          <i-step>
+              <view slot="title">
+                  已读
+              </view>
+              <!--view slot="content">
+                  这里是该步骤的描述信息
+              </view-->
+          </i-step>
+          <i-step>
+              <view slot="title">
+                  已确认
+              </view>
+              <!--view slot="content">
+                  这里是该步骤的描述信息
+              </view-->
+          </i-step>
+        </i-steps>
+      </view>
+    </i-card>
+    
+  </block>
+</block>
+<block wx:else>
+  <i-button wx:if="{{status==2}}" disable type="ghost">已确认</i-button>
+  <i-button wx:if="{{status==1}}" bind:tap="onClickConfirm" type="primary">确认</i-button>
+  <i-button wx:if="{{status==0}}" bind:tap="onClickConfirm" type="primary">还没已读</i-button>
+</block>

@@ -32,6 +32,9 @@ Component({
         speed: {
             type: Number,
             value: 1000
+        },
+        item:{
+            type: Object
         }
     },
 
@@ -108,6 +111,9 @@ Component({
                 timer: null
             });
             this.triggerEvent('close', event);
+        },
+        handleClick() {
+            this.triggerEvent('click', this.properties.item);
         }
     }
 });

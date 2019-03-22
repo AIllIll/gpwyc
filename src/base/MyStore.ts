@@ -14,35 +14,53 @@ export class MyStore extends MobxStore {
    *
    *  另外，函数相关的 ts 定义都存储在 wx.[同名函数] 的 namespace 中，如下面的 ParamPropSuccessParamPropUserInfo
    */
-  @observable userInfo: any=null
 
+  // 网络设置
+  @observable config:any ={
+    // host:"http://10.162.229.43:8360", host_wss:"ws://10.162.229.43:8360",
+    // host:"http://10.161.220.45:8360", host_wss:"ws://10.161.220.45:8360",
+    // host:"http://192.168.1.109:8360", host_wss: "ws://192.168.1.109:8360"
+     host:"http://172.16.1.35:8360", host_wss:"ws://172.16.1.35:8360"
+  }
+
+  // 个人信息
+  @observable userInfo: any=null
   @observable openId: null|string=null
 
+  // 系统信息变量
   @observable windowHeight: null|number=null
   @observable windowWidth: null|number=null
+
+  //是否点击过登录按钮
+  @observable hasLogin:boolean=false
+
+  // ws相关
+  @observable ws1:any=false // socketTask
+  @observable socketOpen:boolean=false // 当服务端断开了ws，这个变量就置false
+
+  webSocketConnect:any = null // 全局函数
+  wsMessageHandler:any = null // 全局函数
+
+
+  // 存放置顶通知
+  @observable noticeList:any = null
+  getNoticeList: any
+  onNoticeTap: any
   
-  //历史记录
+  // 存放任务
+  @observable myReceivedTasks: any=[]
+  @observable myReleasedTasks: any=[]
+
+
+  // 在app页面完成组件数据的刷新，这类东西统一定义在login
+  refreshNoticeList: any 
+
+  //没用过的东西
   @observable conversations: any={}
   
   @observable contacts: any={}
   
   @observable allUsers: any=[]
-
-  @observable myReceivedTasks: any=[]
-  @observable myReleasedTasks: any=[]
-  
-  @observable config:any ={
-
-    host:"http://10.161.203.130:8360",
-    host_wss:"ws://10.161.203.130:8360",
-    // host:"http://192.168.1.109:8360",
-    // host_wss: "ws://192.168.1.109:8360"
-    // host:"http://172.16.1.35:8360",
-    // host_wss:"ws://172.16.1.35:8360"
-  }
-
-  @observable socketOpen:boolean=false
-  @observable needReconnect:boolean=false
 
   @observable Timer1:any=null
 
@@ -52,10 +70,10 @@ export class MyStore extends MobxStore {
   groupChatPageCallback:any=null;
   newsPageCallback:any=null;
   
-  wsMessageHandler:any=null;
+
 
   
-  @observable noticeList:any=null
+
 
 
 }

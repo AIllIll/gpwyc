@@ -11,5 +11,7 @@
   "usingComponents": {
     "i-card":"components/i-View/card/index",
     "i-button":"components/i-View/button/index",
+    "i-steps": "components/i-View/steps/index",
+    "i-step": "components/i-View/step/index"
   }
 }

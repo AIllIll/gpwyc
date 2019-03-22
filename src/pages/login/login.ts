@@ -6,6 +6,7 @@ import {pagify, MyPage, wxp} from 'base/'
 // const wafer = require('wafer-client-sdk/index');
 // wafer.setLoginUrl('https://ttissoft.cn/login');
 
+
 @pagify()
 export default class extends MyPage {
   data = {
@@ -14,6 +15,12 @@ export default class extends MyPage {
   
   async onLoad(options: any) {
     console.log('login onLoad')
+    const that = this
+    this.store.refreshNoticeList = async function(){
+      that.setDataSmart({
+        noticeList: this.noticeList
+      })
+    }
   }
   
   // 点击微信快捷登录
@@ -35,36 +42,10 @@ export default class extends MyPage {
         }
       })
     })
-    await this.webSocketConnect();
+    await this.store.webSocketConnect();
+    await this.store.getNoticeList();
   }
-  //连接
-  async webSocketConnect(){ 
-    if(this.store.socketOpen){
-      console.log("ws已开启,不要重复连接")
-    }else{
-      const ws1 = wx.connectSocket({
-        // 小程序 wx.connectSocket() API header 参数无效，把会话信息附加在 URL 上
-        url: `${this.store.config.host_wss}/ws`,
-        header: {openId: this.store.openId}//似乎header只能小写，不知道是minapp的问题还是thinkjs，服务器收到的是openid
-      });
-      const that = this
-      ws1.onOpen(function() {
-        console.log('WebSocket连接已打开！')
-        that.store.socketOpen=true;
-      })
-      ws1.onMessage(function(res) {
-        console.log('WebSocket连接收到', res)
-        const message = JSON.parse(String(res.data));
-        console.log(message)
-        that.store.wsMessageHandler(message);
-        //wsMessageHandler();
-      })
-      ws1.onClose(function() {
-        console.log('WebSocket连接已关闭！')
-        that.store.socketOpen=false;
-      })
-    }
-  }
+  
 
   async getUserInfo(){
     let setting = await wxp.getSetting()
@@ -94,9 +75,8 @@ export default class extends MyPage {
           code: code,
         },
         success: res=>{
-          console.log(res.data);
           if(res.data.status==='success'){
-            this.store.openId = res.data.openId;
+            this.store.openId = res.data.data.openId;
             resolve()
           }
           reject()

@@ -1,0 +1,57 @@
+数据库
+    有唯一id的数据，组成方式都是{id,dataInfo}
+    例如{openId,userInfo},{_id,taskInfo}
+    除了openId，其他的id全部使用mongo自产生的_id
+
+https
+    服务端
+        return this.json({data: xxx, status: 'success'});
+        reject(this.json({err: err, status: 'error'}));
+    小程序接收
+        res.data.status==='success'
+        res.data.data是xxx
+        错误则是res.data.err
+
+wss:
+    就拿来通知在线用户去get某些东西，如果不在线，上线自己也能get
+    服务端发送
+        this.emit('opend', xxx);
+    小程序接收
+        res={data}
+        其中data="{event:'opend',data:xxx}"需要JSON.Parse
+    小程序发送
+        ws1.send({data:JSON.stringify({event:"deliver", data:xxx})})
+    服务端接收
+        在deliver的Action下
+        this.wsData就是{event:"deliver", data:xxx}
+        this.wsData.data就是发送的东西
+        
+
+**************************
+
+ws的传输单元
+    signal:{
+        fromId: 
+        toId: string || null, //目标ID
+        body: Object // 数据
+    }
+    整个signal放在{event:"deliver", data:signal}
+    例如通知对方获取通知
+    signal:{
+        fromId: 
+        toId: string || null, //目标ID
+        body: null
+    }
+**************************
+
+通知
+    notice:{
+        fromId:
+        toId:
+        title:
+        command：{
+            goToTask: taskId
+        }
+    }
+
+**************************
